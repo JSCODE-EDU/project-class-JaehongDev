@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class DomainControllerAdvice {
 
     @ExceptionHandler({DomainException.class})
-    public ResponseEntity<?> throwDomainExceptionResponse(DomainException exception) {
+    public ResponseEntity<ErrorResponse> throwDomainExceptionResponse(DomainException exception) {
         return ResponseEntity.badRequest()
-                .body(ErrorResponse.builder().code(exception.getCode())
+                .body(ErrorResponse.builder()
+                        .code(exception.getCode())
                         .message(exception.getMessage())
                         .build()
                 );
