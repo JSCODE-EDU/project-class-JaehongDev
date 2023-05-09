@@ -17,10 +17,15 @@ import com.jaehong.projectclassjaehongdev.post.payload.request.PostEditRequest;
 import com.jaehong.projectclassjaehongdev.post.payload.response.PostCreateResponse;
 import com.jaehong.projectclassjaehongdev.post.payload.response.PostEditResponse;
 import com.jaehong.projectclassjaehongdev.post.payload.response.PostFindResponse;
+import com.jaehong.projectclassjaehongdev.post.payload.response.PostsResponse;
 import com.jaehong.projectclassjaehongdev.post.service.PostCreateService;
 import com.jaehong.projectclassjaehongdev.post.service.PostDeleteService;
 import com.jaehong.projectclassjaehongdev.post.service.PostEditService;
 import com.jaehong.projectclassjaehongdev.post.service.PostFindService;
+import com.jaehong.projectclassjaehongdev.post.service.PostsFindService;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -46,6 +51,8 @@ class PostControllerTest {
     PostDeleteService postDeleteService;
     @MockBean
     PostFindService postFindService;
+    @MockBean
+    PostsFindService postsFindService;
     @Autowired
     MockMvc mockMvc;
     @Autowired
@@ -198,8 +205,37 @@ class PostControllerTest {
                     .andExpect(jsonPath("$.code").value(domainException.getCode()))
                     .andExpect(jsonPath("$.message").value(String.format(domainException.getMessage(), 1L)));
         }
-
-
     }
 
+    @Nested
+    @DisplayName("게시글 다건 조회 api 단위 테스트")
+    class PostsFindActionTest {
+        @Test
+        void 게시글_다건_조회() throws Exception {
+            var data = LongStream.range(1, 11).mapToObj(index -> PostFindResponse.builder()
+                    .id(index)
+                    .title("title" + index)
+                    .content("content" + index)
+                    .build()
+            ).collect(Collectors.toList());
+            var response = PostsResponse.from(data);
+            BDDMockito.given(postsFindService.execute()).willReturn(response);
+
+            mockMvc.perform(get("/api/posts"))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andExpectAll(jsonPath("$.posts.length()").value(10));
+        }
+
+        @Test
+        void 게시글_다건_조회_비어있는_경우() throws Exception {
+            var response = PostsResponse.from(List.of());
+            BDDMockito.given(postsFindService.execute()).willReturn(response);
+            mockMvc.perform(get("/api/posts"))
+                    .andExpect(status().isOk())
+                    .andDo(print())
+                    .andExpectAll(jsonPath("$.posts.length()").value(0));
+        }
+
+    }
 }
