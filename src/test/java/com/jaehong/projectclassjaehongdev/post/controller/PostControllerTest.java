@@ -37,6 +37,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -74,11 +75,7 @@ class PostControllerTest {
                     .build();
             given(postCreateService.execute(request)).willReturn(response);
 
-            mockMvc.perform(post("/api/posts")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .accept(MediaType.APPLICATION_JSON)
-                            .content(mapper.writeValueAsBytes(request)))
-                    .andDo(print())
+            requestNewPostApi(request)
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.title").value(response.getTitle()))
                     .andExpect(jsonPath("$.content").value(response.getContent()));
@@ -86,22 +83,25 @@ class PostControllerTest {
 
         @Test
         void 잘못된_게시글을_생성하면_오류가_발생한다() throws Exception {
-            var request = PostCreateRequest.builder()
-                    .title("")
-                    .content("content")
-                    .build();
+            var request = PostCreateRequest.builder().title("").content("content").build();
 
             var domainException = DomainExceptionCode.POST_SHOULD_NOT_TITLE_EMPTY;
             given(postCreateService.execute(request)).willThrow(domainException.generateError());
 
-            mockMvc.perform(post("/api/posts")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .accept(MediaType.APPLICATION_JSON)
-                            .content(mapper.writeValueAsBytes(request)))
-                    .andDo(print())
+            requestNewPostApi(request)
                     .andExpect(status().isBadRequest())
                     .andExpect(jsonPath("$.code").value(domainException.getCode()))
                     .andExpect(jsonPath("$.message").value(domainException.getMessage()));
+        }
+
+
+        private ResultActions requestNewPostApi(PostCreateRequest request) throws Exception {
+            return mockMvc.perform(post("/api/posts")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON)
+                            .content(mapper.writeValueAsBytes(request)))
+                    .andDo(print());
+
         }
     }
 
@@ -121,15 +121,19 @@ class PostControllerTest {
                     .build();
             given(postEditService.execute(1L, request)).willReturn(response);
 
-            mockMvc.perform(patch("/api/posts/{postId}", 1L)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .accept(MediaType.APPLICATION_JSON)
-                            .content(mapper.writeValueAsBytes(request)))
-                    .andDo(print())
+            requestUpdatePostApi(request)
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.id").value(response.getId()))
                     .andExpect(jsonPath("$.title").value(response.getTitle()))
                     .andExpect(jsonPath("$.content").value(response.getContent()));
+        }
+
+        private ResultActions requestUpdatePostApi(PostEditRequest request) throws Exception {
+            return mockMvc.perform(patch("/api/posts/{postId}", 1L)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON)
+                            .content(mapper.writeValueAsBytes(request)))
+                    .andDo(print());
         }
 
         @Test
@@ -141,11 +145,7 @@ class PostControllerTest {
             var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS;
             given(postEditService.execute(1L, request)).willThrow(domainException.generateError(1L));
 
-            mockMvc.perform(patch("/api/posts/{postId}", 1L)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .accept(MediaType.APPLICATION_JSON)
-                            .content(mapper.writeValueAsBytes(request)))
-                    .andDo(print())
+            requestUpdatePostApi(request)
                     .andExpect(status().isBadRequest())
                     .andExpect(jsonPath("$.code").value(domainException.getCode()))
                     .andExpect(jsonPath("$.message").value(String.format(domainException.getMessage(), 1L)));
@@ -157,9 +157,13 @@ class PostControllerTest {
     class PostDeleteActionTest {
         @Test
         void 게시글을_삭제합니다() throws Exception {
-            mockMvc.perform(delete("/api/posts/{postId}", 1L))
-                    .andDo(print())
+            requestDeletePost()
                     .andExpect(status().isCreated());
+        }
+
+        private ResultActions requestDeletePost() throws Exception {
+            return mockMvc.perform(delete("/api/posts/{postId}", 1L))
+                    .andDo(print());
         }
 
         @Test
@@ -187,12 +191,16 @@ class PostControllerTest {
                     .build();
             BDDMockito.given(postFindService.execute(1L)).willReturn(response);
 
-            mockMvc.perform(get("/api/posts/{postId}", 1L))
-                    .andDo(print())
+            requestFindPostApi()
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.id").value(response.getId()))
                     .andExpect(jsonPath("$.content").value(response.getContent()))
                     .andExpect(jsonPath("$.title").value(response.getTitle()));
+        }
+
+        private ResultActions requestFindPostApi() throws Exception {
+            return mockMvc.perform(get("/api/posts/{postId}", 1L))
+                    .andDo(print());
         }
 
         @Test
@@ -200,7 +208,7 @@ class PostControllerTest {
 
             var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS;
             given(postFindService.execute(1L)).willThrow(domainException.generateError(1L));
-            mockMvc.perform(get("/api/posts/{postId}", 1L))
+            requestFindPostApi()
                     .andExpect(status().isBadRequest())
                     .andExpect(jsonPath("$.code").value(domainException.getCode()))
                     .andExpect(jsonPath("$.message").value(String.format(domainException.getMessage(), 1L)));
@@ -221,20 +229,25 @@ class PostControllerTest {
             var response = PostsResponse.from(data);
             BDDMockito.given(postsFindService.execute()).willReturn(response);
 
-            mockMvc.perform(get("/api/posts"))
+            requestFindPostsApi()
                     .andExpect(status().isOk())
-                    .andDo(print())
                     .andExpectAll(jsonPath("$.posts.length()").value(10));
         }
+
 
         @Test
         void 게시글_다건_조회_비어있는_경우() throws Exception {
             var response = PostsResponse.from(List.of());
             BDDMockito.given(postsFindService.execute()).willReturn(response);
             mockMvc.perform(get("/api/posts"))
-                    .andExpect(status().isOk())
                     .andDo(print())
+                    .andExpect(status().isOk())
                     .andExpectAll(jsonPath("$.posts.length()").value(0));
+        }
+
+        private ResultActions requestFindPostsApi() throws Exception {
+            return mockMvc.perform(get("/api/posts"))
+                    .andDo(print());
         }
 
     }
