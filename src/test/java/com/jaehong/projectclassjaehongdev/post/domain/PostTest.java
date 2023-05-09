@@ -24,7 +24,6 @@ class PostTest {
     }
 
     @Nested
-    @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
     @DisplayName("게시글 생성")
     class PostCreate {
         @ParameterizedTest
@@ -59,6 +58,13 @@ class PostTest {
                     .satisfies(error -> validateDomainExceptionCode(error, DomainExceptionCode.POST_SHOULD_NOT_CONTENT_EMPTY));
         }
 
+        @Test
+        void 내용이_null_인_경우_오류가_발생한다() {
+            assertThatThrownBy(() -> Post.createNewPost("title", null))
+                    .isInstanceOf(DomainException.class)
+                    .satisfies(error -> validateDomainExceptionCode(error, DomainExceptionCode.POST_SHOULD_NOT_CONTENT_EMPTY));
+        }
+
         @ParameterizedTest
         @ValueSource(ints = {1001, 1002})
         void 내용이_1000자가_넘으면_오류가_발생한다(int size) {
@@ -74,5 +80,24 @@ class PostTest {
         }
     }
 
+
+    @Nested
+    @DisplayName("게시글 수정")
+    class PostUpdate {
+        @Test
+        void 데이터가_변경됩니다() {
+            var previousTitle = "title";
+            var previousContent = "content";
+            var nextTitle = "next-title";
+            var nextContent = "next-content";
+
+            var post = Post.createNewPost(previousTitle, previousContent);
+            var updatePost = post.updatePost(nextTitle, nextContent);
+
+            assertAll(() -> Assertions.assertThat(updatePost.getTitle()).isEqualTo(nextTitle),
+                    () -> Assertions.assertThat(updatePost.getContent()).isEqualTo(nextContent)
+            );
+        }
+    }
 
 }
