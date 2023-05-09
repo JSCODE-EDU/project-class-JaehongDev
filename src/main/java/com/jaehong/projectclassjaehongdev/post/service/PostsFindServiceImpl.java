@@ -21,6 +21,7 @@ public class PostsFindServiceImpl implements PostsFindService {
                                 .id(post.getId())
                                 .title(post.getTitle())
                                 .content(post.getContent())
+                                .createdAt(post.getCreatedAt())
                                 .build()
                 ).collect(Collectors.toList()));
     }

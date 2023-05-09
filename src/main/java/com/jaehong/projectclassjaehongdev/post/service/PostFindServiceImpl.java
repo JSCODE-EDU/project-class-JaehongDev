@@ -20,6 +20,7 @@ public class PostFindServiceImpl implements PostFindService {
         return PostFindResponse.builder().id(postViewed.getId())
                 .title(postViewed.getTitle())
                 .content(postViewed.getContent())
+                .createdAt(postViewed.getCreatedAt())
                 .build();
     }
 }

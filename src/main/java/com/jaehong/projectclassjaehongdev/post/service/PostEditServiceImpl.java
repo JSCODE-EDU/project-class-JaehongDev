@@ -25,6 +25,7 @@ public class PostEditServiceImpl implements PostEditService {
                 .id(updatedPost.getId())
                 .title(updatedPost.getTitle())
                 .content(updatedPost.getContent())
+                .createdAt(updatedPost.getCreatedAt())
                 .build();
     }
 }

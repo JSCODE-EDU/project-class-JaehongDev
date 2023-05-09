@@ -21,6 +21,7 @@ public class PostCreateServiceImpl implements PostCreateService {
                 .id(postEntity.getId())
                 .title(postEntity.getTitle())
                 .content(postEntity.getContent())
+                .createdAt(postEntity.getCreatedAt())
                 .build();
     }
 }
