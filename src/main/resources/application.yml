@@ -1,0 +1,19 @@
+jpa:
+  hibernate:
+    ddl-auto: create
+  show-sql: true
+  properties:
+    hibernate:
+      format_sql: true
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/REAL_PROJECT_CLASS?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  # mysql 사용
+  jpa:
+    database: mysql
