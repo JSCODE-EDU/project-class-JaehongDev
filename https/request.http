@@ -1,0 +1,30 @@
+### 게시글 생성
+POST http://localhost:8080/api/post
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "title",
+  "content": "content"
+}
+
+### 게시글 수정
+PATCH http://localhost:8080/api/post/{postId}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "new-title",
+  "content": "new-content"
+}
+
+### 게시글 전체 조회
+GET https://localhost:8080/api/posts
+Accept: application/json
+
+### 게시글 단건 조회
+GET https://localhost:8080/api/post/{postId}
+Accept: application/json
+
+### 게시글 삭제 조회
+DELETE https://localhost:8080/api/post/{postId}

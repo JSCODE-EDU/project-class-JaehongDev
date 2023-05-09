@@ -3,11 +3,11 @@ package com.jaehong.projectclassjaehongdev.post.domain.policy;
 import com.jaehong.projectclassjaehongdev.config.domain.DomainExceptionCode;
 import com.jaehong.projectclassjaehongdev.post.domain.Post;
 
-public class PostPolicy {
+public class PostValidationPolicy {
     private static final Integer MAX_TITLE_SIZE = 100;
     private static final Integer MAX_CONTENT_SIZE = 1000;
 
-    public static void validatePostCreate(Post post) {
+    public static void validateAll(Post post) {
         validatePostTitle(post.getTitle());
         validatePostContent(post.getContent());
     }
@@ -39,4 +39,6 @@ public class PostPolicy {
             throw DomainExceptionCode.POST_TITLE_SIZE_SHOULD_NOT_OVER_THAN_MAX_VALUE.generateError(MAX_TITLE_SIZE, titleLength);
         }
     }
+
+
 }
