@@ -6,8 +6,8 @@ import lombok.Getter;
 public class DomainException extends RuntimeException {
     private final int code;
 
-    public DomainException(DomainExceptionCode domainExceptionCode) {
-        super(domainExceptionCode.getMessage());
-        this.code = domainExceptionCode.getCode();
+    public DomainException(Integer code, String message) {
+        super(message);
+        this.code = code;
     }
 }
