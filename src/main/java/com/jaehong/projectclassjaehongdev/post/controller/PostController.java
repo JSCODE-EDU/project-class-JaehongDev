@@ -5,10 +5,12 @@ import com.jaehong.projectclassjaehongdev.post.payload.request.PostEditRequest;
 import com.jaehong.projectclassjaehongdev.post.payload.response.PostCreateResponse;
 import com.jaehong.projectclassjaehongdev.post.payload.response.PostEditResponse;
 import com.jaehong.projectclassjaehongdev.post.payload.response.PostFindResponse;
+import com.jaehong.projectclassjaehongdev.post.payload.response.PostsResponse;
 import com.jaehong.projectclassjaehongdev.post.service.PostCreateService;
 import com.jaehong.projectclassjaehongdev.post.service.PostDeleteService;
 import com.jaehong.projectclassjaehongdev.post.service.PostEditService;
 import com.jaehong.projectclassjaehongdev.post.service.PostFindService;
+import com.jaehong.projectclassjaehongdev.post.service.PostsFindService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,6 +31,7 @@ public class PostController {
     private final PostEditService postEditService;
     private final PostDeleteService postDeleteService;
     private final PostFindService postFindService;
+    private final PostsFindService postsFindService;
 
     @PostMapping
     public ResponseEntity<PostCreateResponse> createNewPost(@RequestBody PostCreateRequest postCreateRequest) {
@@ -51,4 +54,8 @@ public class PostController {
         return ResponseEntity.ok(postFindService.execute(postId));
     }
 
+    @GetMapping()
+    public ResponseEntity<PostsResponse> findPostsByAll() {
+        return ResponseEntity.ok(postsFindService.execute());
+    }
 }
