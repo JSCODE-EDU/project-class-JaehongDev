@@ -1,11 +1,10 @@
 package com.jaehong.projectclassjaehongdev.globa.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.jaehong.projectclassjaehongdev.global.domain.DomainException;
 import com.jaehong.projectclassjaehongdev.global.domain.DomainExceptionCode;
+import com.jaehong.projectclassjaehongdev.utils.DomainExceptionValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -21,12 +20,7 @@ class DomainExceptionCodeTest {
         assertThatThrownBy(() -> {
             throw domainException;
         }).isInstanceOf(DomainException.class)
-                .satisfies((error) -> {
-                    var exception = (DomainException) error;
-                    assertAll(() -> assertThat(exception.getCode()).isEqualTo(domainException.getCode()),
-                            () -> assertThat(exception.getMessage()).isEqualTo(domainException.getMessage())
-                    );
-                });
+                .satisfies((error) -> DomainExceptionValidator.validate(error, domainException));
     }
 
     @Test
@@ -35,12 +29,7 @@ class DomainExceptionCodeTest {
         assertThatThrownBy(() -> {
             throw domainException;
         }).isInstanceOf(DomainException.class)
-                .satisfies((error) -> {
-                    var exception = (DomainException) error;
-                    assertAll(() -> assertThat(exception.getCode()).isEqualTo(domainException.getCode()),
-                            () -> assertThat(exception.getMessage()).isEqualTo(domainException.getMessage())
-                    );
-                });
+                .satisfies((error) -> DomainExceptionValidator.validate(error, domainException));
     }
 
 

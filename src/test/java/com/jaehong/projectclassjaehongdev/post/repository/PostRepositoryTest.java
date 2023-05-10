@@ -47,8 +47,7 @@ class PostRepositoryTest {
 
     @Test
     void 게시글_키워드_검색이_빈_값이면_전체_검색() {
-        postRepository.saveAllAndFlush(
-                generateSampleData(5, (index) -> Post.createNewPost("title" + index, "content")));
+        postRepository.saveAllAndFlush(generateSampleData(5, (index) -> Post.createNewPost("title" + index, "content")));
 
         assertThat(postRepository.findBy(PostSearch.builder().build()).size()).isEqualTo(5);
 

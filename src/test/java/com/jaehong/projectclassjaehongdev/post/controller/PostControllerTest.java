@@ -120,7 +120,6 @@ class PostControllerTest {
                     .content(request.getContent())
                     .build();
             given(postEditService.execute(1L, request)).willReturn(response);
-
             requestUpdatePostApi(request)
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.id").value(response.getId()))

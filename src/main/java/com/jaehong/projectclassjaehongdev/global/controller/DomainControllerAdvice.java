@@ -26,7 +26,7 @@ public class DomainControllerAdvice {
         String message;
 
         @Builder
-        public ErrorResponse(int code, String message) {
+        private ErrorResponse(int code, String message) {
             this.code = code;
             this.message = message;
         }

@@ -20,10 +20,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("Post domain 테스트")
 class PostTest {
-    interface AssertionsDomainExceptionProcessor {
-
-    }
-
     @Nested
     @DisplayName("게시글을 생성하는 경우")
     class PostCreate {
