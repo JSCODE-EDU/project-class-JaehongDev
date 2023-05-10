@@ -35,9 +35,10 @@ class PostEditServiceImplTest {
                 .title("title")
                 .content("content")
                 .build();
+        var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.generateError(1L);
         given(postRepository.findById(1L)).willReturn(Optional.empty());
         assertThatThrownBy(() -> postEditService.execute(1L, request))
                 .isInstanceOf(DomainException.class)
-                .satisfies(error -> DomainExceptionValidator.validateDomainException(error, DomainExceptionCode.POST_DID_NOT_EXISTS));
+                .satisfies(error -> DomainExceptionValidator.validate(error, domainException));
     }
 }

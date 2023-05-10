@@ -85,8 +85,8 @@ class PostControllerTest {
         void 잘못된_데이터의_경우_오류가_발생한다() throws Exception {
             var request = PostCreateRequest.builder().title("").content("content").build();
 
-            var domainException = DomainExceptionCode.POST_SHOULD_NOT_TITLE_EMPTY;
-            given(postCreateService.execute(request)).willThrow(domainException.generateError());
+            var domainException = DomainExceptionCode.POST_SHOULD_NOT_TITLE_EMPTY.generateError();
+            given(postCreateService.execute(request)).willThrow(domainException);
 
             requestNewPostApi(request)
                     .andExpect(status().isBadRequest())
@@ -134,13 +134,13 @@ class PostControllerTest {
                     .title("title")
                     .content("content")
                     .build();
-            var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS;
-            given(postEditService.execute(1L, request)).willThrow(domainException.generateError(1L));
+            var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.generateError(1L);
+            given(postEditService.execute(1L, request)).willThrow(domainException);
 
             requestUpdatePostApi(request)
                     .andExpect(status().isBadRequest())
                     .andExpect(jsonPath("$.code").value(domainException.getCode()))
-                    .andExpect(jsonPath("$.message").value(String.format(domainException.getMessage(), 1L)));
+                    .andExpect(jsonPath("$.message").value(domainException));
         }
 
         private ResultActions requestUpdatePostApi(PostEditRequest request) throws Exception {
@@ -164,14 +164,14 @@ class PostControllerTest {
 
         @Test
         void 없다면_삭제할_수_없습니다() throws Exception {
-            var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS;
-            doThrow(domainException.generateError(1L)).when(postDeleteService).execute(1L);
+            var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.generateError(1L);
+            doThrow(domainException).when(postDeleteService).execute(1L);
 
             mockMvc.perform(delete("/api/posts/{postId}", 1L))
                     .andDo(print())
                     .andExpect(status().isBadRequest())
                     .andExpect(jsonPath("$.code").value(domainException.getCode()))
-                    .andExpect(jsonPath("$.message").value(String.format(domainException.getMessage(), 1L)));
+                    .andExpect(jsonPath("$.message").value(domainException.getMessage()));
         }
 
         private ResultActions requestDeletePost() throws Exception {
@@ -202,12 +202,12 @@ class PostControllerTest {
         @Test
         void 없다면_조회할_수_없습니다() throws Exception {
 
-            var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS;
-            given(postFindService.execute(1L)).willThrow(domainException.generateError(1L));
+            var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.generateError(1L);
+            given(postFindService.execute(1L)).willThrow(domainException);
             requestFindPostApi()
                     .andExpect(status().isBadRequest())
                     .andExpect(jsonPath("$.code").value(domainException.getCode()))
-                    .andExpect(jsonPath("$.message").value(String.format(domainException.getMessage(), 1L)));
+                    .andExpect(jsonPath("$.message").value(domainException.getMessage()));
         }
 
         private ResultActions requestFindPostApi() throws Exception {
