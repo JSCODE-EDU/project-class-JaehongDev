@@ -25,6 +25,15 @@ class PostRepositoryTest {
     @Autowired
     private PostRepository postRepository;
 
+
+    @Test
+    void 게시글이_정상적으로_데이터베이스에_저장됩니다() {
+        var entity = postRepository.save(Post.createNewPost("-".repeat(100), "-".repeat(999)));
+
+        assertThat(entity.getTitle()).isEqualTo("-".repeat(100));
+        assertThat(entity.getContent()).isEqualTo("-".repeat(999));
+    }
+
     @Test
     void 게시글_조건_범위_테스트() {
 
