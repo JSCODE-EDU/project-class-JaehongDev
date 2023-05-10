@@ -24,7 +24,7 @@ class PostTest {
     }
 
     @Nested
-    @DisplayName("게시글 생성")
+    @DisplayName("게시글을 생성하는 경우")
     class PostCreate {
         @ParameterizedTest
         @ValueSource(strings = {"", "    "})
@@ -82,7 +82,7 @@ class PostTest {
 
 
     @Nested
-    @DisplayName("게시글 수정")
+    @DisplayName("게시글 수정을 하는 경우")
     class PostUpdate {
         @Test
         void 데이터가_변경됩니다() {

@@ -56,7 +56,8 @@ public class PostController {
         return ResponseEntity.ok(postFindService.execute(postId));
     }
 
-    // 고민 게시글 전체 조회를 위한 서비스는
+    // 고민
+    // 게시글 전체 조회를 위한 서비스는
     // 여러 메서드를 사용하는 것이 나은 방법인지 아니면 하나만 존재하도록 하는 방법이 나은것인지
     @GetMapping()
     public ResponseEntity<PostsResponse> findPostsByAll(@ModelAttribute PostSearch postSearch) {
