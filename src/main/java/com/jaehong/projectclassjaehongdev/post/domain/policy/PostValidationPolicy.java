@@ -20,7 +20,7 @@ public class PostValidationPolicy {
             throw DomainExceptionCode.POST_SHOULD_NOT_CONTENT_EMPTY.generateError();
         }
         var contentLength = content.length();
-        if (MAX_TITLE_SIZE < contentLength) {
+        if (MAX_CONTENT_SIZE < contentLength) {
             throw DomainExceptionCode.POST_CONTENT_SIZE_SHOULD_NOT_OVER_THAN_MAX_VALUE.generateError(MAX_CONTENT_SIZE, contentLength);
         }
 
