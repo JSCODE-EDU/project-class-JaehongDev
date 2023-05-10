@@ -37,7 +37,7 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<PostCreateResponse> createNewPost(@RequestBody PostCreateRequest postCreateRequest) {
-        return ResponseEntity.ok(postCreateService.execute(postCreateRequest));
+        return ResponseEntity.status(201).body(postCreateService.execute(postCreateRequest));
     }
 
     @PatchMapping("/{postId}")
@@ -48,7 +48,7 @@ public class PostController {
     @DeleteMapping("/{postId}")
     public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
         postDeleteService.execute(postId);
-        return ResponseEntity.status(201).build();
+        return ResponseEntity.status(204).build();
     }
 
     @GetMapping("/{postId}")
