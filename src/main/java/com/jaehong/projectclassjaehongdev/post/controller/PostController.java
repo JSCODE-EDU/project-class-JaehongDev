@@ -2,6 +2,7 @@ package com.jaehong.projectclassjaehongdev.post.controller;
 
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostCreateRequest;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostEditRequest;
+import com.jaehong.projectclassjaehongdev.post.payload.request.PostSearch;
 import com.jaehong.projectclassjaehongdev.post.payload.response.PostCreateResponse;
 import com.jaehong.projectclassjaehongdev.post.payload.response.PostEditResponse;
 import com.jaehong.projectclassjaehongdev.post.payload.response.PostFindResponse;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,8 +56,10 @@ public class PostController {
         return ResponseEntity.ok(postFindService.execute(postId));
     }
 
+    // 고민 게시글 전체 조회를 위한 서비스는
+    // 여러 메서드를 사용하는 것이 나은 방법인지 아니면 하나만 존재하도록 하는 방법이 나은것인지
     @GetMapping()
-    public ResponseEntity<PostsResponse> findPostsByAll() {
-        return ResponseEntity.ok(postsFindService.execute());
+    public ResponseEntity<PostsResponse> findPostsByAll(@ModelAttribute PostSearch postSearch) {
+        return ResponseEntity.ok(postsFindService.execute(postSearch));
     }
 }
