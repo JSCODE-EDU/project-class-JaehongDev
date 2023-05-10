@@ -4,27 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jaehong.projectclassjaehongdev.post.domain.Post;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostSearch;
+import com.jaehong.projectclassjaehongdev.utils.annotation.RepositoryTest;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ActiveProfiles("test")
-@TestPropertySource("classpath:application-test.yml")
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ExtendWith(SpringExtension.class)
-@DataJpaTest
+@RepositoryTest
 class PostRepositoryTest {
     @Autowired
     private PostRepository postRepository;
-
 
     @Test
     void 게시글이_정상적으로_데이터베이스에_저장됩니다() {
