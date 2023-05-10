@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jaehong.projectclassjaehongdev.config.domain.DomainExceptionCode;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostCreateRequest;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostEditRequest;
+import com.jaehong.projectclassjaehongdev.post.payload.request.PostSearch;
 import com.jaehong.projectclassjaehongdev.post.payload.response.PostCreateResponse;
 import com.jaehong.projectclassjaehongdev.post.payload.response.PostEditResponse;
 import com.jaehong.projectclassjaehongdev.post.payload.response.PostFindResponse;
@@ -227,18 +228,17 @@ class PostControllerTest {
                     .build()
             ).collect(Collectors.toList());
             var response = PostsResponse.from(data);
-            BDDMockito.given(postsFindService.execute()).willReturn(response);
+            BDDMockito.given(postsFindService.execute(PostSearch.builder().build())).willReturn(response);
 
             requestFindPostsApi()
                     .andExpect(status().isOk())
                     .andExpectAll(jsonPath("$.posts.length()").value(10));
         }
 
-
         @Test
         void 게시글_다건_조회_비어있는_경우() throws Exception {
             var response = PostsResponse.from(List.of());
-            BDDMockito.given(postsFindService.execute()).willReturn(response);
+            BDDMockito.given(postsFindService.execute(PostSearch.builder().build())).willReturn(response);
             mockMvc.perform(get("/api/posts"))
                     .andDo(print())
                     .andExpect(status().isOk())
