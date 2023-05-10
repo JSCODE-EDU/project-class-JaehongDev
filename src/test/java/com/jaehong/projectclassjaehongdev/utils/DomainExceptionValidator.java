@@ -3,7 +3,7 @@ package com.jaehong.projectclassjaehongdev.utils;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.jaehong.projectclassjaehongdev.config.domain.DomainException;
+import com.jaehong.projectclassjaehongdev.global.domain.DomainException;
 
 public class DomainExceptionValidator {
 

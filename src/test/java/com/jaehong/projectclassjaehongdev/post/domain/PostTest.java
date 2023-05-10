@@ -4,8 +4,8 @@ package com.jaehong.projectclassjaehongdev.post.domain;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.jaehong.projectclassjaehongdev.config.domain.DomainException;
-import com.jaehong.projectclassjaehongdev.config.domain.DomainExceptionCode;
+import com.jaehong.projectclassjaehongdev.global.domain.DomainException;
+import com.jaehong.projectclassjaehongdev.global.domain.DomainExceptionCode;
 import com.jaehong.projectclassjaehongdev.utils.DomainExceptionValidator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

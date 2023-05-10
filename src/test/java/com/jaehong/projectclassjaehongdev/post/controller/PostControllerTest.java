@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jaehong.projectclassjaehongdev.config.domain.DomainExceptionCode;
+import com.jaehong.projectclassjaehongdev.global.domain.DomainExceptionCode;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostCreateRequest;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostEditRequest;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostSearch;
@@ -140,7 +140,7 @@ class PostControllerTest {
             requestUpdatePostApi(request)
                     .andExpect(status().isBadRequest())
                     .andExpect(jsonPath("$.code").value(domainException.getCode()))
-                    .andExpect(jsonPath("$.message").value(domainException));
+                    .andExpect(jsonPath("$.message").value(domainException.getMessage()));
         }
 
         private ResultActions requestUpdatePostApi(PostEditRequest request) throws Exception {

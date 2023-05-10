@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jaehong.projectclassjaehongdev.config.domain.DomainExceptionCode;
+import com.jaehong.projectclassjaehongdev.global.domain.DomainExceptionCode;
 import com.jaehong.projectclassjaehongdev.post.domain.Post;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostCreateRequest;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostEditRequest;

@@ -3,8 +3,8 @@ package com.jaehong.projectclassjaehongdev.post.service;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
-import com.jaehong.projectclassjaehongdev.config.domain.DomainException;
-import com.jaehong.projectclassjaehongdev.config.domain.DomainExceptionCode;
+import com.jaehong.projectclassjaehongdev.global.domain.DomainException;
+import com.jaehong.projectclassjaehongdev.global.domain.DomainExceptionCode;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostEditRequest;
 import com.jaehong.projectclassjaehongdev.post.repository.PostRepository;
 import com.jaehong.projectclassjaehongdev.utils.DomainExceptionValidator;
