@@ -8,12 +8,22 @@ import com.jaehong.projectclassjaehongdev.post.repository.PostRepository;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
 @RequiredArgsConstructor
 public class PostsFindServiceImpl implements PostsFindService {
     private final PostRepository postRepository;
+
+
+    @Transactional(readOnly = true)
+    @Override
+    public PostsResponse execute(PostSearch postSearch) {
+        return PostsResponse.from(postRepository.findBy(postSearch)
+                .stream().map(this::convertEntityToResponse)
+                .collect(Collectors.toList()));
+    }
 
     private PostFindResponse convertEntityToResponse(Post post) {
         return PostFindResponse.builder()
@@ -22,12 +32,5 @@ public class PostsFindServiceImpl implements PostsFindService {
                 .content(post.getContent())
                 .createdAt(post.getCreatedAt())
                 .build();
-    }
-
-    @Override
-    public PostsResponse execute(PostSearch postSearch) {
-        return PostsResponse.from(postRepository.findBy(postSearch)
-                .stream().map(this::convertEntityToResponse)
-                .collect(Collectors.toList()));
     }
 }

@@ -6,12 +6,14 @@ import com.jaehong.projectclassjaehongdev.post.payload.response.PostCreateRespon
 import com.jaehong.projectclassjaehongdev.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class PostCreateServiceImpl implements PostCreateService {
     private final PostRepository postRepository;
 
+    @Transactional
     @Override
     public PostCreateResponse execute(PostCreateRequest request) {
         var newPost = Post.createNewPost(request.getTitle(), request.getContent());
