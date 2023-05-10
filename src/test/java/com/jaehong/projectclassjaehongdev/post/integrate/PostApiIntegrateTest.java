@@ -45,7 +45,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
                     .content(request.getContent())
                     .build();
             requestPostCreateApi(request)
-                    .andExpect(status().isOk())
+                    .andExpect(status().isCreated())
                     .andExpect(jsonPath("$.title").value(response.getTitle()))
                     .andExpect(jsonPath("$.content").value(response.getContent()));
         }
@@ -117,7 +117,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
             final var postEntity = postRepository.save(Post.createNewPost("title", "content"));
             assertThat(postRepository.findAll().size()).isEqualTo(1);
             requestPostDeleteApi(postEntity.getId())
-                    .andExpect(status().isCreated());
+                    .andExpect(status().isNoContent());
 
             assertThat(postRepository.findAll().size()).isEqualTo(0);
         }

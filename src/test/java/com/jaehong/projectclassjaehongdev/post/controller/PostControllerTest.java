@@ -76,7 +76,7 @@ class PostControllerTest {
             given(postCreateService.execute(request)).willReturn(response);
 
             requestNewPostApi(request)
-                    .andExpect(status().isOk())
+                    .andExpect(status().isCreated())
                     .andExpect(jsonPath("$.title").value(response.getTitle()))
                     .andExpect(jsonPath("$.content").value(response.getContent()));
         }
@@ -157,7 +157,7 @@ class PostControllerTest {
         @Test
         void 정상적으로_삭제됩니다() throws Exception {
             requestDeletePost()
-                    .andExpect(status().isCreated());
+                    .andExpect(status().isNoContent()); //204
         }
 
 
