@@ -1,4 +1,4 @@
-package com.jaehong.projectclassjaehongdev.config.domain;
+package com.jaehong.projectclassjaehongdev.global.domain;
 
 import lombok.Getter;
 

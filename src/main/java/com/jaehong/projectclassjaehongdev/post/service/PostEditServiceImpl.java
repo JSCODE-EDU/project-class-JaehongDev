@@ -1,6 +1,6 @@
 package com.jaehong.projectclassjaehongdev.post.service;
 
-import com.jaehong.projectclassjaehongdev.config.domain.DomainExceptionCode;
+import com.jaehong.projectclassjaehongdev.global.domain.DomainExceptionCode;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostEditRequest;
 import com.jaehong.projectclassjaehongdev.post.payload.response.PostEditResponse;
 import com.jaehong.projectclassjaehongdev.post.repository.PostRepository;

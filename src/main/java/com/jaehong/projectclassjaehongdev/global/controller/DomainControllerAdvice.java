@@ -1,6 +1,6 @@
 package com.jaehong.projectclassjaehongdev.global.controller;
 
-import com.jaehong.projectclassjaehongdev.config.domain.DomainException;
+import com.jaehong.projectclassjaehongdev.global.domain.DomainException;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.ResponseEntity;

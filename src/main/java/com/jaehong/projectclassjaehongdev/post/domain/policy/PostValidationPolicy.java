@@ -1,6 +1,6 @@
 package com.jaehong.projectclassjaehongdev.post.domain.policy;
 
-import com.jaehong.projectclassjaehongdev.config.domain.DomainExceptionCode;
+import com.jaehong.projectclassjaehongdev.global.domain.DomainExceptionCode;
 import com.jaehong.projectclassjaehongdev.post.domain.Post;
 
 public class PostValidationPolicy {
