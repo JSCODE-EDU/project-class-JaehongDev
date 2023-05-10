@@ -1,6 +1,9 @@
 spring:
+  config:
+    activate:
+      on-profile: test
   datasource:
-    url: jdbc:mysql://localhost:3306/REAL_PROJECT_CLASS?useSSL=true&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/TEST_PROJECT_CLASS?useSSL=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -9,7 +12,7 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddlAuto:create
+      ddlAuto: create
     properties:
       hibernate:
         show_sql: true
