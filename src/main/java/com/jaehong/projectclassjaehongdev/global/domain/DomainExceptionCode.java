@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 
 public enum DomainExceptionCode {
-    POST(1000, "전체적인 에러 메시지 입니다."),
+    POST(1000, ""),
     POST_SHOULD_NOT_TITLE_EMPTY(POST.code + 1, "게시글 제목은 필수적으로 필요합니다."),
     POST_SHOULD_NOT_CONTENT_EMPTY(POST.code + 2, "게시글 내용은 필수적으로 필요합니다."),
     POST_TITLE_SIZE_SHOULD_NOT_OVER_THAN_MAX_VALUE(POST.code + 3, "게시글 제목은 %d보다 길게 작성할 수 없습니다 (size: %d)"),

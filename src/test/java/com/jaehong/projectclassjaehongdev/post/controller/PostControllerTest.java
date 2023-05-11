@@ -83,7 +83,10 @@ class PostControllerTest {
 
         @Test
         void 잘못된_데이터의_경우_오류가_발생한다() throws Exception {
-            var request = PostCreateRequest.builder().title("").content("content").build();
+            var request = PostCreateRequest.builder()
+                    .title("")
+                    .content("content")
+                    .build();
 
             var domainException = DomainExceptionCode.POST_SHOULD_NOT_TITLE_EMPTY.generateError();
             given(postCreateService.execute(request)).willThrow(domainException);
