@@ -178,7 +178,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
                     .mapToObj(index -> Post.createNewPost("title" + index, "content" + index))
                     .collect(Collectors.toList());
             postRepository.saveAll(data);
-            requestPostsFindApi("")
+            requestPostsFindApi()
                     .andExpect(status().isOk())
                     .andExpectAll(jsonPath("$.posts.length()").value(10));
         }
@@ -196,6 +196,11 @@ public class PostApiIntegrateTest extends IntegrateTest {
 
         private ResultActions requestPostsFindApi(String title) throws Exception {
             return mockMvc.perform(get("/api/posts?title={title}", title))
+                    .andDo(print());
+        }
+
+        private ResultActions requestPostsFindApi() throws Exception {
+            return mockMvc.perform(get("/api/posts"))
                     .andDo(print());
         }
     }

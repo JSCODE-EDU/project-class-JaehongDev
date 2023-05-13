@@ -3,7 +3,7 @@ package com.jaehong.projectclassjaehongdev.post.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jaehong.projectclassjaehongdev.post.domain.Post;
-import com.jaehong.projectclassjaehongdev.post.payload.request.PostSearch;
+import com.jaehong.projectclassjaehongdev.post.vo.PostSearchCondition;
 import com.jaehong.projectclassjaehongdev.utils.annotation.RepositoryTest;
 import java.util.List;
 import java.util.function.IntFunction;
@@ -39,9 +39,9 @@ class PostRepositoryTest {
 
         Assertions.assertAll(
                 () -> assertThat(postRepository.count()).isEqualTo(130),
-                () -> assertThat(postRepository.findBy(PostSearch.builder().title("title").build()).size()).isEqualTo(10),
-                () -> assertThat(postRepository.findBy(PostSearch.builder().title("jaehong").build()).size()).isEqualTo(5),
-                () -> assertThat(postRepository.findBy(PostSearch.builder().title("jscode").build()).size()).isEqualTo(100)
+                () -> assertThat(postRepository.findBy(PostSearchCondition.create("title")).size()).isEqualTo(10),
+                () -> assertThat(postRepository.findBy(PostSearchCondition.create("jaehong")).size()).isEqualTo(5),
+                () -> assertThat(postRepository.findBy(PostSearchCondition.create("jscode")).size()).isEqualTo(100)
         );
     }
 
@@ -49,7 +49,7 @@ class PostRepositoryTest {
     void 게시글_키워드_검색이_빈_값이면_전체_검색() {
         postRepository.saveAllAndFlush(generateSampleData(5, (index) -> Post.createNewPost("title" + index, "content")));
 
-        assertThat(postRepository.findBy(PostSearch.builder().build()).size()).isEqualTo(5);
+        assertThat(postRepository.findBy(PostSearchCondition.createEmptyCondition()).size()).isEqualTo(5);
 
     }
 
