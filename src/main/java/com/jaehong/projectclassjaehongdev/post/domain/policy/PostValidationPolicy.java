@@ -4,7 +4,7 @@ import com.jaehong.projectclassjaehongdev.global.domain.DomainExceptionCode;
 import com.jaehong.projectclassjaehongdev.post.domain.Post;
 
 public class PostValidationPolicy {
-    private static final Integer MAX_TITLE_SIZE = 100;
+    private static final Integer MAX_TITLE_SIZE = 10;
     private static final Integer MAX_CONTENT_SIZE = 1000;
 
     public static void validateAll(Post post) {
@@ -27,7 +27,7 @@ public class PostValidationPolicy {
     }
 
     /**
-     * @param title null x should not over than 100 words 공백 불가능 띄어쓰기 포함
+     * @param title null x should not over than 10 words 공백 불가능 띄어쓰기 포함
      */
     private static void validatePostTitle(String title) {
         if (title == null || title.isEmpty() || title.isBlank()) {
