@@ -21,9 +21,9 @@ class PostRepositoryTest {
 
     @Test
     void 게시글이_정상적으로_데이터베이스에_저장됩니다() {
-        var entity = postRepository.save(Post.createNewPost("-".repeat(100), "-".repeat(1000)));
+        var entity = postRepository.save(Post.createNewPost("-".repeat(10), "-".repeat(1000)));
 
-        assertThat(entity.getTitle()).isEqualTo("-".repeat(100));
+        assertThat(entity.getTitle()).isEqualTo("-".repeat(10));
         assertThat(entity.getContent()).isEqualTo("-".repeat(1000));
     }
 
@@ -33,14 +33,14 @@ class PostRepositoryTest {
         //  title이 포함된 게시글 10개 생성
         postRepository.saveAll(generateSampleData(10, generatePostEntity("title")));
         // jaehongDev가 포함된 게시글 5개 생성
-        postRepository.saveAll(generateSampleData(5, generatePostEntity("jaehongDev")));
+        postRepository.saveAll(generateSampleData(5, generatePostEntity("jaehong")));
         // jscode 가 포함된 게시글 115개 생성
         postRepository.saveAll(generateSampleData(115, generatePostEntity("jscode")));
 
         Assertions.assertAll(
                 () -> assertThat(postRepository.count()).isEqualTo(130),
                 () -> assertThat(postRepository.findBy(PostSearch.builder().title("title").build()).size()).isEqualTo(10),
-                () -> assertThat(postRepository.findBy(PostSearch.builder().title("jaehongDev").build()).size()).isEqualTo(5),
+                () -> assertThat(postRepository.findBy(PostSearch.builder().title("jaehong").build()).size()).isEqualTo(5),
                 () -> assertThat(postRepository.findBy(PostSearch.builder().title("jscode").build()).size()).isEqualTo(100)
         );
     }

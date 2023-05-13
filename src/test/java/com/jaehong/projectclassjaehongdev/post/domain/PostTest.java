@@ -41,9 +41,9 @@ class PostTest {
         }
 
         @ParameterizedTest
-        @ValueSource(ints = {101, 102})
+        @ValueSource(ints = {11, 12})
         void 제목이_100글자를_넘기면_오류가_발생한다(int size) {
-            var domainException = DomainExceptionCode.POST_TITLE_SIZE_SHOULD_NOT_OVER_THAN_MAX_VALUE.generateError(100, size);
+            var domainException = DomainExceptionCode.POST_TITLE_SIZE_SHOULD_NOT_OVER_THAN_MAX_VALUE.generateError(10, size);
             var input = "-".repeat(size); // 100글자가 넘는 문자열 생성
             assertThatThrownBy(() -> Post.createNewPost(input, "post"))
                     .isInstanceOf(DomainException.class)
