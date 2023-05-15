@@ -25,7 +25,7 @@ class PostFindKeywordStrategyTest {
 
         String input = " ".repeat(size);
 
-        final var domainException = DomainExceptionCode.POST_SEARCH_KEYWORD_SHOULD_NOT_BE_BLANK.generateError(input);
+        final var domainException = DomainExceptionCode.POST_SEARCH_KEYWORD_SHOULD_NOT_BE_BLANK.create(input);
         Assertions.assertThatThrownBy(() -> {
                     postFindKeywordStrategy.findBy(PostSearch.builder().title(input).build());
                 }).isInstanceOf(DomainException.class)

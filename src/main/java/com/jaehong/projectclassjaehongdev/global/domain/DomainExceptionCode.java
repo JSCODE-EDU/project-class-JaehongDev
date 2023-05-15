@@ -21,7 +21,7 @@ public enum DomainExceptionCode {
     private final String message;
 
 
-    public DomainException generateError() {
+    public DomainException create() {
         return new DomainException(code, this.generateErrorMessage());
     }
 
@@ -29,7 +29,7 @@ public enum DomainExceptionCode {
         return String.format(BASIC_ERROR_FORMAT, this.code, this.message);
     }
 
-    public DomainException generateError(Object... args) {
+    public DomainException create(Object... args) {
         return new DomainException(code, this.generateErrorMessage(args));
     }
 

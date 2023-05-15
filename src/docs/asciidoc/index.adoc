@@ -12,8 +12,6 @@ endif::[]
 
 == 게시글 작성 성공
 
-게시글을 생성하는 api 입니다.
-
 === 요청
 
 include::{snippets}/post-create-success/request-body.adoc[]

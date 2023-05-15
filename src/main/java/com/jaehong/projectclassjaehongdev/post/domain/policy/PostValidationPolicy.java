@@ -17,11 +17,11 @@ public class PostValidationPolicy {
      */
     private static void validatePostContent(String content) {
         if (content == null || content.isEmpty() || content.isBlank()) {
-            throw DomainExceptionCode.POST_SHOULD_NOT_CONTENT_EMPTY.generateError();
+            throw DomainExceptionCode.POST_SHOULD_NOT_CONTENT_EMPTY.create();
         }
         var contentLength = content.length();
         if (MAX_CONTENT_SIZE < contentLength) {
-            throw DomainExceptionCode.POST_CONTENT_SIZE_SHOULD_NOT_OVER_THAN_MAX_VALUE.generateError(MAX_CONTENT_SIZE, contentLength);
+            throw DomainExceptionCode.POST_CONTENT_SIZE_SHOULD_NOT_OVER_THAN_MAX_VALUE.create(MAX_CONTENT_SIZE, contentLength);
         }
 
     }
@@ -31,12 +31,12 @@ public class PostValidationPolicy {
      */
     private static void validatePostTitle(String title) {
         if (title == null || title.isEmpty() || title.isBlank()) {
-            throw DomainExceptionCode.POST_SHOULD_NOT_TITLE_EMPTY.generateError();
+            throw DomainExceptionCode.POST_SHOULD_NOT_TITLE_EMPTY.create();
         }
         var titleLength = title.length();
 
         if (MAX_TITLE_SIZE < titleLength) {
-            throw DomainExceptionCode.POST_TITLE_SIZE_SHOULD_NOT_OVER_THAN_MAX_VALUE.generateError(MAX_TITLE_SIZE, titleLength);
+            throw DomainExceptionCode.POST_TITLE_SIZE_SHOULD_NOT_OVER_THAN_MAX_VALUE.create(MAX_TITLE_SIZE, titleLength);
         }
     }
 

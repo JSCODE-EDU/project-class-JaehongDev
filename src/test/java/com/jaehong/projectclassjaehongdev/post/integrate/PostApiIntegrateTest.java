@@ -145,7 +145,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
 
         @Test
         void 아이디가_존재하지_않아서_수정을_실패합니다() throws Exception {
-            var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.generateError(1L);
+            var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.create(1L);
             var postEditeRequest = PostEditRequest.builder()
                     .build();
             requestPostEditApi(postEditeRequest, 1L)
@@ -187,7 +187,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
 
         @Test
         void 존재하지_않는_게시글은_삭제_실패합니다() throws Exception {
-            var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.generateError(1L);
+            var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.create(1L);
 
             requestPostDeleteApi(1L)
                     .andExpect(status().isBadRequest())
@@ -230,7 +230,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
 
         @Test
         void 존재하지_않는_게시글은_조회할_수_없습니다() throws Exception {
-            var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.generateError(1L);
+            var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.create(1L);
 
             requestPostFindApi(1L)
                     .andExpect(status().isBadRequest())
