@@ -19,7 +19,7 @@ public class PostEditServiceImpl implements PostEditService {
         var previousPost = postRepository.findById(postId)
                 .orElseThrow(() -> DomainExceptionCode.POST_DID_NOT_EXISTS.generateError(postId));
 
-        var updatedPost = postRepository.save(previousPost.updatePost(editRequest.getTitle(), editRequest.getContent()));
+        var updatedPost = postRepository.save(previousPost.update(editRequest.getTitle(), editRequest.getContent()));
 
         return PostEditResponse.builder()
                 .id(updatedPost.getId())
