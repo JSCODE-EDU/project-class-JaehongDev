@@ -13,6 +13,7 @@ import com.jaehong.projectclassjaehongdev.post.service.PostEditService;
 import com.jaehong.projectclassjaehongdev.post.service.PostFindService;
 import com.jaehong.projectclassjaehongdev.post.service.PostsFindService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +38,7 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<PostCreateResponse> createNewPost(@RequestBody PostCreateRequest postCreateRequest) {
-        return ResponseEntity.status(201).body(postCreateService.execute(postCreateRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(postCreateService.execute(postCreateRequest));
     }
 
     @PatchMapping("/{postId}")
@@ -48,7 +49,7 @@ public class PostController {
     @DeleteMapping("/{postId}")
     public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
         postDeleteService.execute(postId);
-        return ResponseEntity.status(204).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping("/{postId}")
