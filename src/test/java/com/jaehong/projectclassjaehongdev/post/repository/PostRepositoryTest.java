@@ -21,7 +21,7 @@ class PostRepositoryTest {
 
     @Test
     void 게시글이_정상적으로_데이터베이스에_저장됩니다() {
-        var entity = postRepository.save(Post.createNewPost("-".repeat(10), "-".repeat(1000)));
+        var entity = postRepository.save(Post.create("-".repeat(10), "-".repeat(1000)));
 
         assertThat(entity.getTitle()).isEqualTo("-".repeat(10));
         assertThat(entity.getContent()).isEqualTo("-".repeat(1000));
@@ -47,14 +47,14 @@ class PostRepositoryTest {
 
     @Test
     void 게시글_키워드_검색이_빈_값이면_전체_검색() {
-        postRepository.saveAllAndFlush(generateSampleData(5, (index) -> Post.createNewPost("title" + index, "content")));
+        postRepository.saveAllAndFlush(generateSampleData(5, (index) -> Post.create("title" + index, "content")));
 
         assertThat(postRepository.findBy(PostSearchCondition.createEmptyCondition()).size()).isEqualTo(5);
 
     }
 
     private IntFunction<Post> generatePostEntity(String title) {
-        return (index) -> Post.createNewPost(title + index, "content" + index);
+        return (index) -> Post.create(title + index, "content" + index);
     }
 
     private List<Post> generateSampleData(int quantity, IntFunction<Post> createPostEntity) {

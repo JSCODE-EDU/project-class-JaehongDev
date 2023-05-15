@@ -111,7 +111,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
 
         @Test
         void 정상적으로_수정이_됩니다() throws Exception {
-            var postEntity = postRepository.save(Post.createNewPost("title", "content"));
+            var postEntity = postRepository.save(Post.create("title", "content"));
             var newTitle = "new title";
             var newContent = "new content";
             var postEditeRequest = PostEditRequest.builder()
@@ -171,7 +171,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
     class PostDeleteAction {
         @Test
         void 정상적으로_삭제합니다() throws Exception {
-            final var postEntity = postRepository.save(Post.createNewPost("title", "content"));
+            final var postEntity = postRepository.save(Post.create("title", "content"));
             assertThat(postRepository.findAll().size()).isEqualTo(1);
             requestPostDeleteApi(postEntity.getId())
                     .andExpect(status().isNoContent())
@@ -206,7 +206,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
     class PostFindAction {
         @Test
         void 정상적으로_조회됩니다() throws Exception {
-            final var postEntity = postRepository.save(Post.createNewPost("title", "content"));
+            final var postEntity = postRepository.save(Post.create("title", "content"));
             requestPostFindApi(postEntity.getId())
                     .andDo(document("post-inquiry",
                             getDocumentRequest(),
@@ -250,7 +250,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
         @Test
         void 정상적으로_조회됩니다() throws Exception {
             var data = LongStream.range(1, 11)
-                    .mapToObj(index -> Post.createNewPost("title" + index, "content" + index))
+                    .mapToObj(index -> Post.create("title" + index, "content" + index))
                     .collect(Collectors.toList());
             postRepository.saveAll(data);
             requestPostsFindApi()
@@ -271,7 +271,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
         @Test
         void _100건이_넘는_결과는_100건만_조회됩니다() throws Exception {
             var data = LongStream.range(1, 111)
-                    .mapToObj(index -> Post.createNewPost("title" + index, "content" + index))
+                    .mapToObj(index -> Post.create("title" + index, "content" + index))
                     .collect(Collectors.toList());
             postRepository.saveAll(data);
             requestPostsFindApi("title")
