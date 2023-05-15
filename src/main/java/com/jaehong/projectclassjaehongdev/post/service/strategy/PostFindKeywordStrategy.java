@@ -7,6 +7,7 @@ import com.jaehong.projectclassjaehongdev.post.repository.PostRepository;
 import com.jaehong.projectclassjaehongdev.post.vo.PostSearchCondition;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Component;
 
 @Component("PostFindKeywordStrategy")
@@ -16,7 +17,7 @@ public class PostFindKeywordStrategy extends PostSearchStrategy {
 
     @Override
     public PostsResponse findBy(PostSearch postSearch) {
-        if (postSearch.getTitle().isBlank()) {
+        if (Strings.isBlank(postSearch.getTitle())) {
             throw DomainExceptionCode.POST_SEARCH_KEYWORD_SHOULD_NOT_BE_BLANK.generateError(postSearch.getTitle());
         }
         return PostsResponse.from(postRepository.findBy(PostSearchCondition.create(postSearch.getTitle()))
