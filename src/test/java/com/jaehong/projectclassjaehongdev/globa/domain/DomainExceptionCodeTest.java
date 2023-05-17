@@ -16,7 +16,7 @@ class DomainExceptionCodeTest {
 
     @Test
     void 정상적으로_도메인_에러가_생성됩니다() {
-        var domainException = DomainExceptionCode.POST_SHOULD_NOT_CONTENT_EMPTY.create();
+        var domainException = DomainExceptionCode.POST_SHOULD_NOT_CONTENT_EMPTY.generateError();
         assertThatThrownBy(() -> {
             throw domainException;
         }).isInstanceOf(DomainException.class)
@@ -25,7 +25,7 @@ class DomainExceptionCodeTest {
 
     @Test
     void 파라미터가_존재하는_에러도_정상적으로_생성됩니다() {
-        var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.create(1L);
+        var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.generateError(1L);
         assertThatThrownBy(() -> {
             throw domainException;
         }).isInstanceOf(DomainException.class)

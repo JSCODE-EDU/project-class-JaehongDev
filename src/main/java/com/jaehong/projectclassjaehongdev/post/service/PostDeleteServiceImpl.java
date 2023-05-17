@@ -15,7 +15,7 @@ public class PostDeleteServiceImpl implements PostDeleteService {
     @Override
     public void execute(Long postId) {
         var post = postRepository.findById(postId)
-                .orElseThrow(() -> DomainExceptionCode.POST_DID_NOT_EXISTS.create(postId));
+                .orElseThrow(() -> DomainExceptionCode.POST_DID_NOT_EXISTS.generateError(postId));
         postRepository.delete(post);
     }
 }

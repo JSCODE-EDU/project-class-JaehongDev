@@ -22,9 +22,3 @@ logging:
         type:
           descriptor:
             sql: trace
-
-
-
-###
-target:
-  url: http://localhost:8080

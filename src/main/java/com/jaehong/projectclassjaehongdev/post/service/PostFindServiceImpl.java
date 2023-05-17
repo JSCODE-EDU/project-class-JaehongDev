@@ -18,7 +18,7 @@ public class PostFindServiceImpl implements PostFindService {
     public PostFindResponse execute(Long postId) {
         // 조회 결과
         var postViewed = postRepository.findById(postId)
-                .orElseThrow(() -> DomainExceptionCode.POST_DID_NOT_EXISTS.create(postId));
+                .orElseThrow(() -> DomainExceptionCode.POST_DID_NOT_EXISTS.generateError(postId));
 
         return PostFindResponse.builder().id(postViewed.getId())
                 .title(postViewed.getTitle())

@@ -16,7 +16,7 @@ public class PostCreateServiceImpl implements PostCreateService {
     @Transactional
     @Override
     public PostCreateResponse execute(PostCreateRequest request) {
-        var newPost = Post.create(request.getTitle(), request.getContent());
+        var newPost = Post.createNewPost(request.getTitle(), request.getContent());
         var postEntity = postRepository.save(newPost);
 
         return PostCreateResponse.builder()
