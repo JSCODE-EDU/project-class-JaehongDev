@@ -35,7 +35,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-
-### production profile ###
-src/main/resources/application-prod.yml

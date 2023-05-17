@@ -17,4 +17,9 @@ public class PostSearch {
     public PostSearch(String title) {
         this.title = title;
     }
+
+    public String getTitle() {
+        return title == null ? "" : title;
+    }
+
 }

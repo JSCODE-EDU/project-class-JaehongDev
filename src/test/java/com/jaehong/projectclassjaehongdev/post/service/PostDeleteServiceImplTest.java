@@ -29,7 +29,7 @@ class PostDeleteServiceImplTest {
 
     @Test
     void 게시글이_존재하지_않는_경우_에러를_발생시킵니다() {
-        var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.create(1L);
+        var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.generateError(1L);
         given(postRepository.findById(1L)).willReturn(Optional.empty());
         assertThatThrownBy(() -> postDeleteService.execute(1L))
                 .isInstanceOf(DomainException.class)

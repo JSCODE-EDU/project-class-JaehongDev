@@ -20,16 +20,6 @@ public class DomainControllerAdvice {
                 );
     }
 
-    @ExceptionHandler({RuntimeException.class})
-    public ResponseEntity<ErrorResponse> throwRuntimeException(RuntimeException exception) {
-        return ResponseEntity.internalServerError()
-                .body(ErrorResponse.builder()
-                        .code(1)
-                        .message("서버에서 알 수 없는 에러가 발생했습니다.")
-                        .build());
-
-    }
-
     @Getter
     static class ErrorResponse {
         int code;
