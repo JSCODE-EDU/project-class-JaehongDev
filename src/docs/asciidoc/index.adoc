@@ -1,0 +1,150 @@
+ifndef::snippets[]
+:snippets: ../../../build/generated-snippets
+endif::[]
+= API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 3
+:sectlinks:
+:docinfo: shared-head
+
+== 게시글 작성 성공
+
+=== 요청
+
+include::{snippets}/post-create-success/request-body.adoc[]
+
+=== 요청 필드
+
+include::{snippets}/post-create-success/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/post-create-success/http-response.adoc[]
+
+=== 응답 필드
+
+include::{snippets}/post-create-success/response-fields.adoc[]
+
+=== curl
+
+include::{snippets}/post-create-success/curl-request.adoc[]
+
+= 게시글 작성 실패
+
+== 요청
+
+include::{snippets}/post-create-fail/request-body.adoc[]
+
+== 응답
+
+include::{snippets}/post-create-fail/http-response.adoc[]
+
+== curl
+
+include::{snippets}/post-create-fail/curl-request.adoc[]
+
+= 게시글 수정
+게시글을 수정하는 api입니다.
+
+== 요청
+
+include::{snippets}/post-edit/request-body.adoc[]
+
+== 요청 파라미터
+
+include::{snippets}/post-edit/path-parameters.adoc[]
+
+== 요청 필드
+
+include::{snippets}/post-edit/request-fields.adoc[]
+
+== 응답
+
+include::{snippets}/post-edit/http-response.adoc[]
+
+== 응답 필드
+
+include::{snippets}/post-edit/response-fields.adoc[]
+
+== curl
+
+include::{snippets}/post-edit/curl-request.adoc[]
+
+= 게시글 삭제
+
+== 요청 파라미터
+
+include::{snippets}/post-delete/path-parameters.adoc[]
+
+== 응답
+
+include::{snippets}/post-delete/http-response.adoc[]
+
+== curl
+
+include::{snippets}/post-delete/curl-request.adoc[]
+
+= 게시글 단건 조회
+
+== 요청
+
+include::{snippets}/post-inquiry/http-request.adoc[]
+
+== 요청 파라미터
+
+include::{snippets}/post-inquiry/path-parameters.adoc[]
+
+== 응답
+
+include::{snippets}/post-inquiry/http-response.adoc[]
+
+== 응답 필드
+
+include::{snippets}/post-inquiry/response-fields.adoc[]
+
+== curl
+
+include::{snippets}/post-inquiry/curl-request.adoc[]
+
+= 게시글 다건 조회 (키워드 x)
+
+== 요청
+
+include::{snippets}/post-search-all/http-response.adoc[]
+
+== 응답
+
+include::{snippets}/post-search-all/http-response.adoc[]
+
+== 응답 필드
+
+include::{snippets}/post-search-all/response-fields.adoc[]
+
+== curl
+
+include::{snippets}/post-search-all/curl-request.adoc[]
+
+= 게시글 다건 조회 (키워드 O)
+
+== 요청
+
+include::{snippets}/post-search-keyword/http-request.adoc[]
+
+== 요청 쿼리 스트링
+
+include::{snippets}/post-search-keyword/request-parameters.adoc[]
+
+== 응답
+
+include::{snippets}/post-search-keyword/http-response.adoc[]
+
+== 응답 필드
+
+include::{snippets}/post-search-keyword/response-fields.adoc[]
+
+== curl
+
+include::{snippets}/post-search-keyword/curl-request.adoc[]
