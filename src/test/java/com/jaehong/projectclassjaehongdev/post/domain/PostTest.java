@@ -26,26 +26,26 @@ class PostTest {
         @ParameterizedTest
         @ValueSource(strings = {"", "    "})
         void 제목이_없으면_오류가_발생한다(String input) {
-            var domainException = DomainExceptionCode.POST_SHOULD_NOT_TITLE_EMPTY.generateError(input);
-            assertThatThrownBy(() -> Post.createNewPost(input, "post"))
+            var domainException = DomainExceptionCode.POST_SHOULD_NOT_TITLE_EMPTY.create(input);
+            assertThatThrownBy(() -> Post.create(input, "post"))
                     .isInstanceOf(DomainException.class)
                     .satisfies(error -> DomainExceptionValidator.validate(error, domainException));
         }
 
         @Test
         void 제목이_null_인_경우_오류가_발생한다() {
-            var domainException = DomainExceptionCode.POST_SHOULD_NOT_TITLE_EMPTY.generateError(null);
-            assertThatThrownBy(() -> Post.createNewPost(null, "post"))
+            var domainException = DomainExceptionCode.POST_SHOULD_NOT_TITLE_EMPTY.create(null);
+            assertThatThrownBy(() -> Post.create(null, "post"))
                     .isInstanceOf(DomainException.class)
                     .satisfies(error -> DomainExceptionValidator.validate(error, domainException));
         }
 
         @ParameterizedTest
-        @ValueSource(ints = {101, 102})
+        @ValueSource(ints = {11, 12})
         void 제목이_100글자를_넘기면_오류가_발생한다(int size) {
-            var domainException = DomainExceptionCode.POST_TITLE_SIZE_SHOULD_NOT_OVER_THAN_MAX_VALUE.generateError(100, size);
+            var domainException = DomainExceptionCode.POST_TITLE_SIZE_SHOULD_NOT_OVER_THAN_MAX_VALUE.create(10, size);
             var input = "-".repeat(size); // 100글자가 넘는 문자열 생성
-            assertThatThrownBy(() -> Post.createNewPost(input, "post"))
+            assertThatThrownBy(() -> Post.create(input, "post"))
                     .isInstanceOf(DomainException.class)
                     .satisfies(error -> DomainExceptionValidator.validate(error, domainException));
         }
@@ -53,16 +53,16 @@ class PostTest {
         @ParameterizedTest
         @ValueSource(strings = {"", "    "})
         void 내용이_없으면_오류가_발생한다(String input) {
-            var domainException = DomainExceptionCode.POST_SHOULD_NOT_CONTENT_EMPTY.generateError(input);
-            assertThatThrownBy(() -> Post.createNewPost("title", input))
+            var domainException = DomainExceptionCode.POST_SHOULD_NOT_CONTENT_EMPTY.create(input);
+            assertThatThrownBy(() -> Post.create("title", input))
                     .isInstanceOf(DomainException.class)
                     .satisfies(error -> DomainExceptionValidator.validate(error, domainException));
         }
 
         @Test
         void 내용이_null_인_경우_오류가_발생한다() {
-            var domainException = DomainExceptionCode.POST_SHOULD_NOT_CONTENT_EMPTY.generateError(null);
-            assertThatThrownBy(() -> Post.createNewPost("title", null))
+            var domainException = DomainExceptionCode.POST_SHOULD_NOT_CONTENT_EMPTY.create(null);
+            assertThatThrownBy(() -> Post.create("title", null))
                     .isInstanceOf(DomainException.class)
                     .satisfies(error -> DomainExceptionValidator.validate(error, domainException));
         }
@@ -71,8 +71,8 @@ class PostTest {
         @ValueSource(ints = {1001, 1002})
         void 내용이_1000자가_넘으면_오류가_발생한다(int size) {
             var input = "-".repeat(size); // 1000글자가 넘는 문자열 생성
-            var domainException = DomainExceptionCode.POST_CONTENT_SIZE_SHOULD_NOT_OVER_THAN_MAX_VALUE.generateError(1000, size);
-            assertThatThrownBy(() -> Post.createNewPost("title", input))
+            var domainException = DomainExceptionCode.POST_CONTENT_SIZE_SHOULD_NOT_OVER_THAN_MAX_VALUE.create(1000, size);
+            assertThatThrownBy(() -> Post.create("title", input))
                     .isInstanceOf(DomainException.class)
                     .satisfies(error -> DomainExceptionValidator.validate(error, domainException));
         }
@@ -90,8 +90,8 @@ class PostTest {
             var nextTitle = "next-title";
             var nextContent = "next-content";
 
-            var post = Post.createNewPost(previousTitle, previousContent);
-            var updatePost = post.updatePost(nextTitle, nextContent);
+            var post = Post.create(previousTitle, previousContent);
+            var updatePost = post.update(nextTitle, nextContent);
 
             assertAll(() -> Assertions.assertThat(updatePost.getTitle()).isEqualTo(nextTitle),
                     () -> Assertions.assertThat(updatePost.getContent()).isEqualTo(nextContent)
