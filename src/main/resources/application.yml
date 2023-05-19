@@ -9,7 +9,7 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddlAuto:create
+      ddlAuto: create
     properties:
       hibernate:
         show_sql: true

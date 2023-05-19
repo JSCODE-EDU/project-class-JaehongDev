@@ -17,7 +17,6 @@ public class PostsFindServiceImpl implements PostsFindService {
     public PostsFindServiceImpl(
             @Qualifier("PostFindAllStrategy") PostSearchStrategy postFindAllStrategy,
             @Qualifier("PostFindKeywordStrategy") PostSearchStrategy postFindKeywordStrategy) {
-
         this.postFindAllStrategy = postFindAllStrategy;
         this.postFindKeywordStrategy = postFindKeywordStrategy;
     }

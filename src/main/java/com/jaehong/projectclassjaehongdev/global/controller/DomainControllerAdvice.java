@@ -3,10 +3,12 @@ package com.jaehong.projectclassjaehongdev.global.controller;
 import com.jaehong.projectclassjaehongdev.global.domain.DomainException;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class DomainControllerAdvice {
 
@@ -22,6 +24,8 @@ public class DomainControllerAdvice {
 
     @ExceptionHandler({RuntimeException.class})
     public ResponseEntity<ErrorResponse> throwRuntimeException(RuntimeException exception) {
+
+        log.error("{}", exception);
         return ResponseEntity.internalServerError()
                 .body(ErrorResponse.builder()
                         .code(1)
