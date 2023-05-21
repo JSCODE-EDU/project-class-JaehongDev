@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class SignInInServiceImpl implements SignInService {
+    private static final int periodSecond = 60 * 60 * 1000; // 1시간
     private final MemberRepository memberRepository;
     private final TokenService tokenService;
 
@@ -25,6 +26,6 @@ public class SignInInServiceImpl implements SignInService {
         if (!member.comparePassword(request.getPassword())) {
             throw DomainExceptionCode.AUTH_DID_NOT_CORRECT_LOGIN_INFORMATION.create();
         }
-        return SignInResponse.from(tokenService.issuedToken(member.getId(), 3600));
+        return SignInResponse.from(tokenService.issuedToken(member.getId(), periodSecond));
     }
 }

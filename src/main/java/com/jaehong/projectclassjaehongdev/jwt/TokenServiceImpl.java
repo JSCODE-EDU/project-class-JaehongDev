@@ -2,6 +2,7 @@ package com.jaehong.projectclassjaehongdev.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.lang.Maps;
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -10,28 +11,27 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TokenServiceImpl implements TokenService {
+
     private static final String SECRET_KEY = "SECRET_TOKEN_SECRET_TOKEN_SECRET_TOKEN_SECRET_TOKEN_SECRET_TOKEN";
 
     @Override
-    public String issuedToken(Object subject, final long periodSecond) {
-        final var claims = Jwts.claims();
-        claims.put("id", subject);
-
+    public String issuedToken(Object value, long periodSecond) {
+        final var claims = Jwts.claims(Maps.of("id", value).build());
         final Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + periodSecond * 1000))
+                .setExpiration(new Date(now.getTime() + periodSecond))
                 .signWith(getSigningKey())
                 .compact();
     }
 
     @Override
-    public Object getSubject(final String token) {
-        final Claims claims = getBody(token);
-
-        return claims.get("id");
+    public Long getById(final String token) {
+        final var claims = getBody(token);
+        return Long.parseLong(claims.get("id").toString());
     }
+
 
     @Override
     public boolean verifyToken(final String token) {

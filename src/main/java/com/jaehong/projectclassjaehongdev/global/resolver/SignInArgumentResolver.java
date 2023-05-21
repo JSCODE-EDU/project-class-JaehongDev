@@ -42,7 +42,7 @@ public class SignInArgumentResolver implements HandlerMethodArgumentResolver {
             throw new RuntimeException(String.format("USER_ID를 가져오지 못했습니다. (%s - %s)", parameter.getClass(), parameter.getMethod()));
         }
         try {
-            return Long.parseLong(tokenService.getSubject(token).toString());
+            return tokenService.getById(token);
         } catch (final NumberFormatException e) {
             throw new RuntimeException(String.format("USER_ID를 가져오지 못했습니다. (%s - %s)", parameter.getClass(), parameter.getMethod()));
         }
