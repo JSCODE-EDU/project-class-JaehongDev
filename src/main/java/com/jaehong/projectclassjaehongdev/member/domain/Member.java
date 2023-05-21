@@ -38,6 +38,10 @@ public class Member {
         return new Member(email, password);
     }
 
+    public boolean comparePassword(String password) {
+        return this.password.equals(Password.create(password));
+    }
+
     public String getEmail() {
         return this.email.getValue();
     }
@@ -62,4 +66,5 @@ public class Member {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }

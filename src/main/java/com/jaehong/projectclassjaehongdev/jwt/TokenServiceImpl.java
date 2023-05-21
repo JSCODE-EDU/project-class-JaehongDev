@@ -6,12 +6,16 @@ import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+import org.springframework.stereotype.Service;
 
+@Service
 public class TokenServiceImpl implements TokenService {
     private static final String SECRET_KEY = "SECRET_TOKEN_SECRET_TOKEN_SECRET_TOKEN_SECRET_TOKEN_SECRET_TOKEN";
 
-    public String issuedToken(String subject, final long periodSecond) {
-        final var claims = Jwts.claims().setSubject(subject);
+    @Override
+    public String issuedToken(Object subject, final long periodSecond) {
+        final var claims = Jwts.claims();
+        claims.put("id", subject);
 
         final Date now = new Date();
         return Jwts.builder()
@@ -22,12 +26,14 @@ public class TokenServiceImpl implements TokenService {
                 .compact();
     }
 
+    @Override
     public String getSubject(final String token) {
         final Claims claims = getBody(token);
 
         return claims.getSubject();
     }
 
+    @Override
     public boolean verifyToken(final String token) {
         try {
             final Claims claims = getBody(token);

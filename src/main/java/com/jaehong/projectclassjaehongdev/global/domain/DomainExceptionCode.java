@@ -21,7 +21,9 @@ public enum DomainExceptionCode {
     MEMBER_EMAIL_INVALID(MEMBER.code + 2, "회원의 이메일이 유효하지 않습니다. (input: %s)"),
     MEMBER_SHOULD_NOT_PASSWORD_EMPTY(MEMBER.code + 3, "회원의 패스워드는 필수적으로 필요합니다."),
     MEMBER_PASSWORD_INVALID_SIZE(MEMBER.code + 4, "회원의 비밀번호의 길이는 %d이상 %d이하 입니다. (size: %d)"),
-    MEMBER_EXISTS_EMAIL(MEMBER.code + 5, "이미 존재하는 이메일 입니다. (input: %s)");
+    MEMBER_EXISTS_EMAIL(MEMBER.code + 5, "이미 존재하는 이메일 입니다. (input: %s)"),
+    AUTH(3000, ""),
+    AUTH_DID_NOT_CORRECT_LOGIN_INFORMATION(AUTH.code + 1, "부정확한 아이디 비밀번호 입니다.");
 
     private static final String BASIC_ERROR_FORMAT = "[ERROR] [CODE:%d] [Message: %s]";
     private final Integer code;
