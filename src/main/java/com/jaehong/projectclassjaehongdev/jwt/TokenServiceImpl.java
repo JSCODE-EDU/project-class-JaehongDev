@@ -27,10 +27,10 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public String getSubject(final String token) {
+    public Object getSubject(final String token) {
         final Claims claims = getBody(token);
 
-        return claims.getSubject();
+        return claims.get("id");
     }
 
     @Override

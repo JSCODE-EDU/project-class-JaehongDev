@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.CreationTimestamp;
 
 
 @Getter
@@ -25,6 +26,7 @@ public class Member {
     private Password password;
     @Embedded
     private Email email;
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     private Member(String email, String password) {
