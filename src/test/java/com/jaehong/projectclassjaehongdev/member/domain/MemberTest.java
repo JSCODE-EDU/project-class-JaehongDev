@@ -81,4 +81,18 @@ class 회원_도메인을 {
         }
     }
 
+    @Nested
+    class 로그인을_확인할때 {
+        @Test
+        void 동일한_비밀번호면_참을_반환한다() {
+            var member = Member.create("email@email.com", "password");
+            Assertions.assertThat(member.comparePassword("password")).isTrue();
+        }
+
+        @Test
+        void 다른_비밀번호를_사용하면_거짓을_반환한다() {
+            var member = Member.create("email@email.com", "password");
+            Assertions.assertThat(member.comparePassword("otherpassword")).isFalse();
+        }
+    }
 }
