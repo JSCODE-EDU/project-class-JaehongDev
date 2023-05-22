@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SignInInServiceImpl implements SignInService {
+public class SignInServiceImpl implements SignInService {
     private static final int periodSecond = 60 * 60 * 1000; // 1시간
     private final MemberRepository memberRepository;
     private final TokenService tokenService;

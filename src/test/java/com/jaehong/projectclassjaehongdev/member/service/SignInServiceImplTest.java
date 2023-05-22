@@ -29,7 +29,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class SignInServiceImplTest {
     @InjectMocks
-    private SignInInServiceImpl signInInService;
+    private SignInServiceImpl signInInService;
     @Mock
     private MemberRepository memberRepository;
     @Mock
