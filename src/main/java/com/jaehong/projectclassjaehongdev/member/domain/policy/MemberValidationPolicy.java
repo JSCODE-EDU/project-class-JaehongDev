@@ -18,7 +18,7 @@ public class MemberValidationPolicy {
 
     /**
      * <p>
-     * - `패스워드`에 공백이 포함될 수 없다. - `패스워드`는 8자 이상 15자 이하여야 한다.
+     * - `패스워드`에 공백이 포함될 수 없다. <br> - `패스워드`는 8자 이상 15자 이하여야 한다.
      * </p>
      *
      * @param password
