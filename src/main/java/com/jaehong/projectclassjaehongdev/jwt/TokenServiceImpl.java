@@ -17,7 +17,7 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public String issuedToken(Object value, long periodSecond) {
         final var claims = Jwts.claims(Maps.of("id", value).build());
-        final Date now = new Date();
+        final var now = new Date();
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
