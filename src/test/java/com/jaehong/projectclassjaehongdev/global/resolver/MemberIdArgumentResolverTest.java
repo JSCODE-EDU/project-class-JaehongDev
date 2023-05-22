@@ -27,9 +27,9 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @ExtendWith(MockitoExtension.class)
 @DisplayName("ArgumentResolver의 토큰 검증 단위테스트")
-class SignInArgumentResolverTest {
+class MemberIdArgumentResolverTest {
     @InjectMocks
-    private SignInArgumentResolver signInArgumentResolver;
+    private MemberIdArgumentResolver memberIdArgumentResolver;
     @Mock
     private TokenService tokenService;
     @Mock
@@ -46,7 +46,7 @@ class SignInArgumentResolverTest {
     @Test
     void Secured_애노테이션이_존재하지_않는_경우_에러가_발생한다() {
         given(methodParameter.getMethodAnnotation(Secured.class)).willReturn(null);
-        assertThatThrownBy(() -> signInArgumentResolver.resolveArgument(methodParameter, modelAndViewContainer, webRequest, binderFactory))
+        assertThatThrownBy(() -> memberIdArgumentResolver.resolveArgument(methodParameter, modelAndViewContainer, webRequest, binderFactory))
                 .isInstanceOf(AuthenticationException.class);
     }
 
@@ -57,7 +57,7 @@ class SignInArgumentResolverTest {
         given(webRequest.getNativeRequest()).willReturn(httpRequest);
         given(httpRequest.getHeader("Authorization")).willReturn(null);
 
-        assertThatThrownBy(() -> signInArgumentResolver.resolveArgument(methodParameter, modelAndViewContainer, webRequest, binderFactory))
+        assertThatThrownBy(() -> memberIdArgumentResolver.resolveArgument(methodParameter, modelAndViewContainer, webRequest, binderFactory))
                 .isInstanceOf(AuthenticationException.class);
     }
 
@@ -69,7 +69,7 @@ class SignInArgumentResolverTest {
         given(httpRequest.getHeader("Authorization")).willReturn(token);
         given(tokenService.verifyToken(any())).willReturn(false);
 
-        assertThatThrownBy(() -> signInArgumentResolver.resolveArgument(methodParameter, modelAndViewContainer, webRequest, binderFactory))
+        assertThatThrownBy(() -> memberIdArgumentResolver.resolveArgument(methodParameter, modelAndViewContainer, webRequest, binderFactory))
                 .isInstanceOf(AuthenticationException.class);
     }
 
@@ -82,7 +82,7 @@ class SignInArgumentResolverTest {
         given(tokenService.verifyToken(any())).willReturn(true);
         given(tokenService.getById(any())).willReturn(1L);
 
-        var result = signInArgumentResolver.resolveArgument(methodParameter, modelAndViewContainer, webRequest, binderFactory);
+        var result = memberIdArgumentResolver.resolveArgument(methodParameter, modelAndViewContainer, webRequest, binderFactory);
         Assertions.assertThat(result).isEqualTo(1L);
     }
 

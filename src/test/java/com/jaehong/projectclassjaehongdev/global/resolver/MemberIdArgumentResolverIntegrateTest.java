@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("인증 Resolver가 정상적으로 컨트롤러에서 처리되는지 테스트")
 @WebMvcTest({SampleController.class, TokenService.class})
-public class SignInArgumentResolverIntegrateTest {
+public class MemberIdArgumentResolverIntegrateTest {
 
     @Autowired
     private MockMvc mockMvc;

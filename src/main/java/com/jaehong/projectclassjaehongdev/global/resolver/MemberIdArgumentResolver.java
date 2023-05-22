@@ -19,7 +19,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class SignInArgumentResolver implements HandlerMethodArgumentResolver {
+public class MemberIdArgumentResolver implements HandlerMethodArgumentResolver {
     private static final String AUTHORIZATION = "Authorization";
     private static final String AUTHORIZATION_METHOD = "Bearer";
     private final TokenService tokenService;
