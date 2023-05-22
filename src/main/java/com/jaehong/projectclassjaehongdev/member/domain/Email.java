@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
 @EqualsAndHashCode
 @Embeddable
 public class Email {
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String value;
 
     private Email(String value) {
