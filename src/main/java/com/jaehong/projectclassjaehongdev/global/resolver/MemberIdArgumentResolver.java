@@ -43,7 +43,7 @@ public class MemberIdArgumentResolver implements HandlerMethodArgumentResolver {
 
         final var token = authorizationHeader.substring(AUTHORIZATION_METHOD.length() + 1);
         validateInvalidJwtToken(parameter, token);
-        return this.convertTokenToClaimsId(parameter, token);
+        return this.convertTokenToClaimsId(token);
     }
 
     private void validateInvalidMethodAnnotation(MethodParameter parameter) {
@@ -60,7 +60,7 @@ public class MemberIdArgumentResolver implements HandlerMethodArgumentResolver {
         }
     }
 
-    private Long convertTokenToClaimsId(MethodParameter parameter, String token) {
+    private Long convertTokenToClaimsId(String token) {
         try {
             return tokenService.getById(token);
         } catch (final Exception e) {
