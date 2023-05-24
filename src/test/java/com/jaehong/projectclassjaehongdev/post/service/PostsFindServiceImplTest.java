@@ -23,7 +23,6 @@ class PostsFindServiceImplTest {
     private PostFindAllStrategy postFindAllStrategy;
     private PostFindKeywordStrategy postFindKeywordStrategy;
 
-
     @BeforeEach
     void setUp() {
         this.postFindAllStrategy = mock(PostFindAllStrategy.class);

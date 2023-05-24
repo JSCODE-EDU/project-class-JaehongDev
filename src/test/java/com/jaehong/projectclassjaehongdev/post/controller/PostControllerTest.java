@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jaehong.projectclassjaehongdev.global.domain.DomainExceptionCode;
+import com.jaehong.projectclassjaehongdev.jwt.TokenService;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostCreateRequest;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostEditRequest;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostSearch;
@@ -42,7 +43,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("post controller 단위 테스트")
-@WebMvcTest(PostController.class)
+@WebMvcTest({PostController.class, TokenService.class})
 class PostControllerTest {
     @MockBean
     PostEditService postEditService;
