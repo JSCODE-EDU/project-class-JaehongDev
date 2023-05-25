@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.jaehong.projectclassjaehongdev.global.domain.DomainExceptionCode;
+import com.jaehong.projectclassjaehongdev.member.domain.Member;
 import com.jaehong.projectclassjaehongdev.post.domain.Post;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostCreateRequest;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostEditRequest;
@@ -111,7 +112,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
 
         @Test
         void 정상적으로_수정이_됩니다() throws Exception {
-            var postEntity = postRepository.save(Post.create("title", "content"));
+            var postEntity = postRepository.save(Post.create("title", "content", Member.create("emaiL@email.com", "password")));
             var newTitle = "new title";
             var newContent = "new content";
             var postEditeRequest = PostEditRequest.builder()
@@ -171,7 +172,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
     class PostDeleteAction {
         @Test
         void 정상적으로_삭제합니다() throws Exception {
-            final var postEntity = postRepository.save(Post.create("title", "content"));
+            var postEntity = postRepository.save(Post.create("title", "content", Member.create("emaiL@email.com", "password")));
             assertThat(postRepository.findAll().size()).isEqualTo(1);
             requestPostDeleteApi(postEntity.getId())
                     .andExpect(status().isNoContent())
@@ -206,7 +207,8 @@ public class PostApiIntegrateTest extends IntegrateTest {
     class PostFindAction {
         @Test
         void 정상적으로_조회됩니다() throws Exception {
-            final var postEntity = postRepository.save(Post.create("title", "content"));
+
+            var postEntity = postRepository.save(Post.create("title", "content", Member.create("emaiL@email.com", "password")));
             requestPostFindApi(postEntity.getId())
                     .andDo(document("post-inquiry",
                             getDocumentRequest(),
@@ -250,7 +252,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
         @Test
         void 정상적으로_조회됩니다() throws Exception {
             var data = LongStream.range(1, 11)
-                    .mapToObj(index -> Post.create("title" + index, "content" + index))
+                    .mapToObj(index -> Post.create("title" + index, "content" + index, Member.create("email@email.com", "password")))
                     .collect(Collectors.toList());
             postRepository.saveAll(data);
             requestPostsFindApi()
@@ -271,7 +273,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
         @Test
         void _100건이_넘는_결과는_100건만_조회됩니다() throws Exception {
             var data = LongStream.range(1, 111)
-                    .mapToObj(index -> Post.create("title" + index, "content" + index))
+                    .mapToObj(index -> Post.create("title" + index, "content" + index, Member.create("email@email.com", "password")))
                     .collect(Collectors.toList());
             postRepository.saveAll(data);
             requestPostsFindApi("title")

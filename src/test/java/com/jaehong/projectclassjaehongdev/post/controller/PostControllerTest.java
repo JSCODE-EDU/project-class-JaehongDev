@@ -74,7 +74,7 @@ class PostControllerTest {
                     .title(request.getTitle())
                     .content(request.getContent())
                     .build();
-            given(postCreateService.execute(request)).willReturn(response);
+            given(postCreateService.execute(request, 1L)).willReturn(response);
 
             requestNewPostApi(request)
                     .andExpect(status().isCreated())
@@ -90,7 +90,7 @@ class PostControllerTest {
                     .build();
 
             var domainException = DomainExceptionCode.POST_SHOULD_NOT_TITLE_EMPTY.create();
-            given(postCreateService.execute(request)).willThrow(domainException);
+            given(postCreateService.execute(request, 1L)).willThrow(domainException);
 
             requestNewPostApi(request)
                     .andExpect(status().isBadRequest())

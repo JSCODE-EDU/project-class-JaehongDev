@@ -1,5 +1,7 @@
 package com.jaehong.projectclassjaehongdev.post.controller;
 
+import com.jaehong.projectclassjaehongdev.global.authentication.annotation.MemberId;
+import com.jaehong.projectclassjaehongdev.global.authentication.annotation.Secured;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostCreateRequest;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostEditRequest;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostSearch;
@@ -36,9 +38,12 @@ public class PostController {
     private final PostFindService postFindService;
     private final PostsFindService postsFindService;
 
+
+    @Secured
     @PostMapping
-    public ResponseEntity<PostCreateResponse> createNewPost(@RequestBody PostCreateRequest postCreateRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(postCreateService.execute(postCreateRequest));
+    public ResponseEntity<PostCreateResponse> createNewPost(@MemberId Long memberId, @RequestBody PostCreateRequest postCreateRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(postCreateService.execute(postCreateRequest, memberId));
     }
 
     @PatchMapping("/{postId}")

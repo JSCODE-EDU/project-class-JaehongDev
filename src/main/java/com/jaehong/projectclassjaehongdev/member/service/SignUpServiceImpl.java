@@ -17,6 +17,9 @@ public class SignUpServiceImpl implements SignUpService {
     @Transactional
     @Override
     public void execute(SignUpRequest request) {
+        // e m a i l @ email.com
+        // email@email.com
+
         memberRepository.findByEmail(Email.create(request.getEmail()))
                 .ifPresent((member) -> {
                     throw DomainExceptionCode.MEMBER_EXISTS_EMAIL.create(member.getEmail());
