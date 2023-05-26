@@ -14,7 +14,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     @Override
     public List<Post> findBy(PostSearchCondition postSearchCondition) {
-        return entityManager.createQuery("select p from TestPost p where p.title like :searchTitle order by p.createdAt DESC", Post.class)
+        return entityManager.createQuery("select p from Post p where p.title like :searchTitle order by p.createdAt DESC", Post.class)
                 .setParameter("searchTitle", "%" + postSearchCondition.getKeyword() + "%")
                 .setFirstResult(0)
                 .setMaxResults(postSearchCondition.getLimit())
