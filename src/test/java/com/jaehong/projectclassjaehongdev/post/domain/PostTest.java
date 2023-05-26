@@ -1,6 +1,7 @@
 package com.jaehong.projectclassjaehongdev.post.domain;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -8,7 +9,6 @@ import com.jaehong.projectclassjaehongdev.global.domain.DomainException;
 import com.jaehong.projectclassjaehongdev.global.domain.DomainExceptionCode;
 import com.jaehong.projectclassjaehongdev.member.domain.Member;
 import com.jaehong.projectclassjaehongdev.utils.DomainExceptionValidator;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -86,19 +86,37 @@ class PostTest {
     @Nested
     @DisplayName("게시글 수정을 하는 경우")
     class PostUpdate {
+        private final String previousTitle = "title";
+        private final String previousContent = "content";
+        private final String nextTitle = "next-title";
+        private final String nextContent = "next-content";
+
         @Test
         void 데이터가_변경됩니다() {
-            var previousTitle = "title";
-            var previousContent = "content";
-            var nextTitle = "next-title";
-            var nextContent = "next-content";
 
             var post = Post.create(previousTitle, previousContent, member);
-            var updatePost = post.update(nextTitle, nextContent);
+            var updatePost = post.update(PostEditor.builder()
+                    .title(nextTitle)
+                    .content(nextContent)
+                    .writer(member).build());
 
-            assertAll(() -> Assertions.assertThat(updatePost.getTitle()).isEqualTo(nextTitle),
-                    () -> Assertions.assertThat(updatePost.getContent()).isEqualTo(nextContent)
+            assertAll(() -> assertThat(updatePost.getTitle()).isEqualTo(nextTitle),
+                    () -> assertThat(updatePost.getContent()).isEqualTo(nextContent)
             );
+        }
+
+        @Test
+        void 다른_작성자가_수정을_한다면_오류가_발생합니다() {
+
+            var post = Post.create(previousTitle, previousContent, Member.create("other@email.com", "password"));
+            var postEditor = PostEditor.builder()
+                    .title(nextTitle)
+                    .content(nextContent)
+                    .writer(member).build();
+
+            assertThatThrownBy(() -> post.update(postEditor))
+                    .isInstanceOf(DomainException.class)
+                    .satisfies((error) -> DomainExceptionValidator.validate(error, DomainExceptionCode.POST_INVALID_WRITER.create()));
         }
     }
 

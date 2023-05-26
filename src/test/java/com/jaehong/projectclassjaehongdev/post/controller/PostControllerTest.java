@@ -136,7 +136,7 @@ class PostControllerTest {
                     .title(request.getTitle())
                     .content(request.getContent())
                     .build();
-            given(postEditService.execute(1L, request)).willReturn(response);
+            given(postEditService.execute(1L, 1L, request)).willReturn(response);
             requestUpdatePostApi(request)
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.id").value(response.getId()))
@@ -151,7 +151,7 @@ class PostControllerTest {
                     .content("content")
                     .build();
             var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.create(1L);
-            given(postEditService.execute(1L, request)).willThrow(domainException);
+            given(postEditService.execute(1L, 1L, request)).willThrow(domainException);
 
             requestUpdatePostApi(request)
                     .andExpect(status().isBadRequest())
