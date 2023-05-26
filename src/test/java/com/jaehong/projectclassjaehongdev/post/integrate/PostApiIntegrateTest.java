@@ -18,7 +18,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.jaehong.projectclassjaehongdev.global.domain.DomainExceptionCode;
+import com.jaehong.projectclassjaehongdev.jwt.TokenService;
 import com.jaehong.projectclassjaehongdev.member.domain.Member;
+import com.jaehong.projectclassjaehongdev.member.repository.MemberRepository;
 import com.jaehong.projectclassjaehongdev.post.domain.Post;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostCreateRequest;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostEditRequest;
@@ -27,6 +29,7 @@ import com.jaehong.projectclassjaehongdev.post.repository.PostRepository;
 import com.jaehong.projectclassjaehongdev.utils.test.IntegrateTest;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -42,10 +45,23 @@ import org.springframework.test.web.servlet.ResultActions;
 public class PostApiIntegrateTest extends IntegrateTest {
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
+    private TokenService tokenService;
 
     @Nested
     @DisplayName("게시글 생성 api에서")
     class PostCreateAction {
+        String token;
+
+        @BeforeEach
+        void setup() {
+            //create user
+            var member = memberRepository.save(Member.create("email@email.com", "password"));
+            this.token = tokenService.issuedToken(member.getId(), 3600);
+        }
+
         @Test
         void 성공적으로_생성됩니다() throws Exception {
             var request = PostCreateRequest.builder()
@@ -100,6 +116,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
 
         private ResultActions requestPostCreateApi(PostCreateRequest request) throws Exception {
             return mockMvc.perform(post("/api/posts")
+                            .header("Authorization", "Bearer " + token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(mapper.writeValueAsBytes(request)))
                     .andDo(print());

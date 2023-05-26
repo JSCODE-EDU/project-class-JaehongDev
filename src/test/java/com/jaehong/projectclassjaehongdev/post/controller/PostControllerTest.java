@@ -1,5 +1,6 @@
 package com.jaehong.projectclassjaehongdev.post.controller;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -12,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jaehong.projectclassjaehongdev.global.domain.DomainExceptionCode;
+import com.jaehong.projectclassjaehongdev.global.resolver.MemberIdArgumentResolver;
 import com.jaehong.projectclassjaehongdev.jwt.TokenService;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostCreateRequest;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostEditRequest;
@@ -28,6 +30,7 @@ import com.jaehong.projectclassjaehongdev.post.service.PostsFindService;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -55,11 +58,21 @@ class PostControllerTest {
     PostFindService postFindService;
     @MockBean
     PostsFindService postsFindService;
+
+    @MockBean
+    MemberIdArgumentResolver memberIdArgumentResolver;
+
     @Autowired
     MockMvc mockMvc;
     @Autowired
     ObjectMapper mapper;
 
+
+    @BeforeEach
+    void setup() {
+        given(memberIdArgumentResolver.supportsParameter(any())).willReturn(true);
+        given(memberIdArgumentResolver.resolveArgument(any(), any(), any(), any())).willReturn(1L);
+    }
 
     @Nested
     @DisplayName("[게시글 생성 api 단위 테스트] 게시글이")

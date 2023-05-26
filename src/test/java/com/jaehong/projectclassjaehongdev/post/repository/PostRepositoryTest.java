@@ -35,13 +35,14 @@ class PostRepositoryTest {
 
     @Test
     void 게시글_조건_범위_테스트() {
+        var member = memberRepository.saveAndFlush(Member.create("email@email.com", "password"));
 
         //  title이 포함된 게시글 10개 생성
-        postRepository.saveAll(generateSampleData(10, generatePostEntity("title")));
+        postRepository.saveAll(generateSampleData(10, generatePostEntity("title", member)));
         // jaehongDev가 포함된 게시글 5개 생성
-        postRepository.saveAll(generateSampleData(5, generatePostEntity("jaehong")));
+        postRepository.saveAll(generateSampleData(5, generatePostEntity("jaehong", member)));
         // jscode 가 포함된 게시글 115개 생성
-        postRepository.saveAll(generateSampleData(115, generatePostEntity("jscode")));
+        postRepository.saveAll(generateSampleData(115, generatePostEntity("jscode", member)));
 
         Assertions.assertAll(
                 () -> assertThat(postRepository.count()).isEqualTo(130),
@@ -60,8 +61,7 @@ class PostRepositoryTest {
 
     }
 
-    private IntFunction<Post> generatePostEntity(String title) {
-        var member = memberRepository.save(Member.create("email@email.com", "password"));
+    private IntFunction<Post> generatePostEntity(String title, Member member) {
         return (index) -> Post.create(title + index, "content" + index, member);
     }
 
