@@ -61,7 +61,11 @@ public class Post {
     }
 
     public Post update(PostEditor postEditor) {
-        PostValidationPolicy.validateWriter(this, postEditor.getWriter());
+        this.confirmWriter(postEditor.getWriter());
         return new Post(postEditor.getTitle(), postEditor.getContent(), postEditor.getWriter());
+    }
+
+    public void confirmWriter(Member member) {
+        PostValidationPolicy.validateWriter(this, member);
     }
 }

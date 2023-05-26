@@ -54,9 +54,13 @@ public class PostController {
         return ResponseEntity.ok(postEditService.execute(postId, memberId, postEditRequest));
     }
 
+    @Secured
     @DeleteMapping("/{postId}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
-        postDeleteService.execute(postId);
+    public ResponseEntity<Void> deletePost(
+            @MemberId Long memberId,
+            @PathVariable Long postId
+    ) {
+        postDeleteService.execute(postId, memberId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
