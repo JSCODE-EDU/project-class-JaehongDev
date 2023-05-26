@@ -46,9 +46,12 @@ public class PostController {
                 .body(postCreateService.execute(postCreateRequest, memberId));
     }
 
+    @Secured
     @PatchMapping("/{postId}")
-    public ResponseEntity<PostEditResponse> updatePost(@RequestBody PostEditRequest postEditRequest, @PathVariable Long postId) {
-        return ResponseEntity.ok(postEditService.execute(postId, postEditRequest));
+    public ResponseEntity<PostEditResponse> updatePost(@RequestBody PostEditRequest postEditRequest,
+                                                       @MemberId Long memberId,
+                                                       @PathVariable Long postId) {
+        return ResponseEntity.ok(postEditService.execute(postId, memberId, postEditRequest));
     }
 
     @DeleteMapping("/{postId}")

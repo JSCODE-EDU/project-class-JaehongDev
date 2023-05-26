@@ -1,7 +1,9 @@
 package com.jaehong.projectclassjaehongdev.post.domain.policy;
 
 import com.jaehong.projectclassjaehongdev.global.domain.DomainExceptionCode;
+import com.jaehong.projectclassjaehongdev.member.domain.Member;
 import com.jaehong.projectclassjaehongdev.post.domain.Post;
+import java.util.Objects;
 
 public class PostValidationPolicy {
     private static final Integer MAX_TITLE_SIZE = 10;
@@ -41,4 +43,10 @@ public class PostValidationPolicy {
     }
 
 
+    public static void validateWriter(Post post, Member writer) {
+        if (!Objects.equals(post.getWriter(), writer)) {
+            throw DomainExceptionCode.POST_INVALID_WRITER.create();
+        }
+
+    }
 }
