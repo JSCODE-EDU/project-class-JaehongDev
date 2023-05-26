@@ -181,7 +181,7 @@ class PostControllerTest {
         @Test
         void 없다면_삭제할_수_없습니다() throws Exception {
             var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.create(1L);
-            doThrow(domainException).when(postDeleteService).execute(1L);
+            doThrow(domainException).when(postDeleteService).execute(1L, 1L);
 
             mockMvc.perform(delete("/api/posts/{postId}", 1L))
                     .andDo(print())

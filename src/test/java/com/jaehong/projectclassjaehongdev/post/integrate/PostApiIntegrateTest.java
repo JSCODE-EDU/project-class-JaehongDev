@@ -219,7 +219,8 @@ public class PostApiIntegrateTest extends IntegrateTest {
         }
 
         private ResultActions requestPostDeleteApi(Long id) throws Exception {
-            return mockMvc.perform(delete("/api/posts/{id}", id))
+            return mockMvc.perform(delete("/api/posts/{id}", id)
+                            .header("Authorization", "Bearer " + token))
                     .andDo(print());
         }
     }
