@@ -23,7 +23,7 @@ GET http://localhost:8080/api/posts
 Accept: application/json
 
 ### 게시글 단건 조회
-GET http://localhost:8080/api/posts/1
+GET http://localhost:8080/api/posts/3
 Accept: application/json
 
 ### 게시글 삭제
@@ -32,3 +32,5 @@ DELETE http://localhost:8080/api/posts/1
 ### 게시글 다건 조건 조회
 GET http://localhost:8080/api/posts?title=title
 Accept: application/json
+
+

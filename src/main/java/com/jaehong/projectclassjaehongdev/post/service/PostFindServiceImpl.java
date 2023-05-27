@@ -2,7 +2,9 @@ package com.jaehong.projectclassjaehongdev.post.service;
 
 import com.jaehong.projectclassjaehongdev.global.domain.DomainExceptionCode;
 import com.jaehong.projectclassjaehongdev.post.payload.response.PostFindResponse;
+import com.jaehong.projectclassjaehongdev.post.payload.response.PostFindResponse.PostComment;
 import com.jaehong.projectclassjaehongdev.post.repository.PostRepository;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,13 @@ public class PostFindServiceImpl implements PostFindService {
                 .title(postViewed.getTitle())
                 .content(postViewed.getContent())
                 .createdAt(postViewed.getCreatedAt())
+                .comments(postViewed.getComments()
+                        .stream().map(comment -> PostComment
+                                .builder()
+                                .id(comment.getId())
+                                .content(comment.getContent())
+                                .createdAt(comment.getCreatedAt())
+                                .build()).collect(Collectors.toList()))
                 .build();
     }
 }

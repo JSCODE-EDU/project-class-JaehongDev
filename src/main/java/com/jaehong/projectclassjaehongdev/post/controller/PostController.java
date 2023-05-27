@@ -73,4 +73,5 @@ public class PostController {
     public ResponseEntity<PostsResponse> findPostsByAll(@ModelAttribute PostSearch postSearch) {
         return ResponseEntity.ok(postsFindService.execute(postSearch));
     }
+
 }
