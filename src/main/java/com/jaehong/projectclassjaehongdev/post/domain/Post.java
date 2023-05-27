@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -32,7 +34,6 @@ public class Post {
     private String title;
     @Column(length = 1000)
     private String content;
-
     // mapping
     // 연관관계를 매핑해주는 방법과
     // 단순하게 id를 가지는 방법중에서 어는 것이 더 좋은 방법일까?
@@ -47,6 +48,12 @@ public class Post {
     @JoinColumn(name = "POSTS_ID")
     private List<Comment> comments;
 
+    @ManyToMany
+    @JoinTable(
+            name = "post_like",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "member_id"))
+    private List<Member> likedPost;
 
     private Post(Long id, String title, String content, Member writer, LocalDateTime createdAt) {
         this.id = id;

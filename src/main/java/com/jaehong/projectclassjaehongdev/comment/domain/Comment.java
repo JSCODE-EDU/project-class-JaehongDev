@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -35,4 +36,10 @@ public class Comment {
     private Post post;
 
 
+    @Builder
+    private Comment(String content, Member writer, Post post) {
+        this.content = content;
+        this.writer = writer;
+        this.post = post;
+    }
 }
