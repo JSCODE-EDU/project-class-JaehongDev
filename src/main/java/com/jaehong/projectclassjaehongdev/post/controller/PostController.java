@@ -13,6 +13,7 @@ import com.jaehong.projectclassjaehongdev.post.service.PostCreateService;
 import com.jaehong.projectclassjaehongdev.post.service.PostDeleteService;
 import com.jaehong.projectclassjaehongdev.post.service.PostEditService;
 import com.jaehong.projectclassjaehongdev.post.service.PostFindService;
+import com.jaehong.projectclassjaehongdev.post.service.PostSwitchLikeService;
 import com.jaehong.projectclassjaehongdev.post.service.PostsFindService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +39,7 @@ public class PostController {
     private final PostDeleteService postDeleteService;
     private final PostFindService postFindService;
     private final PostsFindService postsFindService;
-
+    private final PostSwitchLikeService postSwitchLikeService;
 
     @Secured
     @PostMapping
@@ -72,6 +74,13 @@ public class PostController {
     @GetMapping()
     public ResponseEntity<PostsResponse> findPostsByAll(@ModelAttribute PostSearch postSearch) {
         return ResponseEntity.ok(postsFindService.execute(postSearch));
+    }
+
+    @Secured
+    @PutMapping("/{postId}/like")
+    public ResponseEntity<Void> likedPost(@MemberId Long memberId, @PathVariable Long postId) {
+        postSwitchLikeService.execute(memberId, postId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 }

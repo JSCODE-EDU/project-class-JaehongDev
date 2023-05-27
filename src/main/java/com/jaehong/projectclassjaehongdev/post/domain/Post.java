@@ -52,7 +52,7 @@ public class Post {
     @JoinTable(
             name = "post_like",
             joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "member_id"))
+            inverseJoinColumns = @JoinColumn(name = "writer_id"))
     private List<Member> likedPost;
 
     private Post(Long id, String title, String content, Member writer, LocalDateTime createdAt) {
@@ -82,5 +82,17 @@ public class Post {
 
     public void confirmWriter(Member member) {
         PostValidationPolicy.validateWriter(this, member);
+    }
+
+    public void switchLike(Member member) {
+        var likedPost = this.getLikedPost();
+        // 좋아요가 삭제
+        if (likedPost.contains(member)) {
+            likedPost.remove(member);
+            return;
+        }
+        // 좋아요 등록
+        likedPost.add(member);
+
     }
 }
