@@ -19,7 +19,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "COMMENTS") // mysql comment와 겹침
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Comment {
     @Id
