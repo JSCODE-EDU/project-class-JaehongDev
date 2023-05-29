@@ -18,6 +18,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.jaehong.projectclassjaehongdev.global.domain.DomainExceptionCode;
+import com.jaehong.projectclassjaehongdev.jwt.TokenService;
+import com.jaehong.projectclassjaehongdev.member.domain.Member;
+import com.jaehong.projectclassjaehongdev.member.repository.MemberRepository;
 import com.jaehong.projectclassjaehongdev.post.domain.Post;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostCreateRequest;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostEditRequest;
@@ -26,6 +29,7 @@ import com.jaehong.projectclassjaehongdev.post.repository.PostRepository;
 import com.jaehong.projectclassjaehongdev.utils.test.IntegrateTest;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -39,12 +43,29 @@ import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("Post 통합 테스트")
 public class PostApiIntegrateTest extends IntegrateTest {
+
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
+    private TokenService tokenService;
+
+    private String token;
+    private Member member;
+
+    @BeforeEach
+    void setup() {
+        //create user
+        this.member = memberRepository.save(Member.create("email@email.com", "password"));
+        this.token = tokenService.issuedToken(member.getId(), 3600);
+    }
+
 
     @Nested
     @DisplayName("게시글 생성 api에서")
     class PostCreateAction {
+
         @Test
         void 성공적으로_생성됩니다() throws Exception {
             var request = PostCreateRequest.builder()
@@ -99,6 +120,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
 
         private ResultActions requestPostCreateApi(PostCreateRequest request) throws Exception {
             return mockMvc.perform(post("/api/posts")
+                            .header("Authorization", "Bearer " + token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(mapper.writeValueAsBytes(request)))
                     .andDo(print());
@@ -111,7 +133,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
 
         @Test
         void 정상적으로_수정이_됩니다() throws Exception {
-            var postEntity = postRepository.save(Post.create("title", "content"));
+            var postEntity = postRepository.save(Post.create("title", "content", member));
             var newTitle = "new title";
             var newContent = "new content";
             var postEditeRequest = PostEditRequest.builder()
@@ -157,6 +179,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
 
         private ResultActions requestPostEditApi(PostEditRequest request, Long id) throws Exception {
             return mockMvc.perform(patch("/api/posts/{id}", id)
+                            .header("Authorization", "Bearer " + token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(mapper.writeValueAsBytes(request))
                             .accept(MediaType.APPLICATION_JSON)
@@ -171,7 +194,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
     class PostDeleteAction {
         @Test
         void 정상적으로_삭제합니다() throws Exception {
-            final var postEntity = postRepository.save(Post.create("title", "content"));
+            var postEntity = postRepository.save(Post.create("title", "content", member));
             assertThat(postRepository.findAll().size()).isEqualTo(1);
             requestPostDeleteApi(postEntity.getId())
                     .andExpect(status().isNoContent())
@@ -196,7 +219,8 @@ public class PostApiIntegrateTest extends IntegrateTest {
         }
 
         private ResultActions requestPostDeleteApi(Long id) throws Exception {
-            return mockMvc.perform(delete("/api/posts/{id}", id))
+            return mockMvc.perform(delete("/api/posts/{id}", id)
+                            .header("Authorization", "Bearer " + token))
                     .andDo(print());
         }
     }
@@ -206,7 +230,8 @@ public class PostApiIntegrateTest extends IntegrateTest {
     class PostFindAction {
         @Test
         void 정상적으로_조회됩니다() throws Exception {
-            final var postEntity = postRepository.save(Post.create("title", "content"));
+
+            var postEntity = postRepository.save(Post.create("title", "content", Member.create("emaiL@email.com", "password")));
             requestPostFindApi(postEntity.getId())
                     .andDo(document("post-inquiry",
                             getDocumentRequest(),
@@ -250,7 +275,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
         @Test
         void 정상적으로_조회됩니다() throws Exception {
             var data = LongStream.range(1, 11)
-                    .mapToObj(index -> Post.create("title" + index, "content" + index))
+                    .mapToObj(index -> Post.create("title" + index, "content" + index, member))
                     .collect(Collectors.toList());
             postRepository.saveAll(data);
             requestPostsFindApi()
@@ -271,7 +296,7 @@ public class PostApiIntegrateTest extends IntegrateTest {
         @Test
         void _100건이_넘는_결과는_100건만_조회됩니다() throws Exception {
             var data = LongStream.range(1, 111)
-                    .mapToObj(index -> Post.create("title" + index, "content" + index))
+                    .mapToObj(index -> Post.create("title" + index, "content" + index, member))
                     .collect(Collectors.toList());
             postRepository.saveAll(data);
             requestPostsFindApi("title")

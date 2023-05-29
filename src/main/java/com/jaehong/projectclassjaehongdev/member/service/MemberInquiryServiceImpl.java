@@ -15,7 +15,8 @@ public class MemberInquiryServiceImpl implements MemberInquiryService {
 
     @Override
     public MemberInquiryResponse execute(Long id) {
-        var member = memberRepository.findById(id).orElseThrow(() -> DomainExceptionCode.MEMBER_ID_DID_NOT_EXISTS.create(id));
+        var member = memberRepository.findById(id)
+                .orElseThrow(() -> DomainExceptionCode.MEMBER_ID_DID_NOT_EXISTS.create(id));
 
         return MemberInquiryResponse.builder()
                 .email(member.getEmail())

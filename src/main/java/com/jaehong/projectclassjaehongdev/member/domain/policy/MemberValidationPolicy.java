@@ -49,6 +49,7 @@ public class MemberValidationPolicy {
             throw DomainExceptionCode.MEMBER_SHOULD_NOT_EMAIL_EMPTY.create();
         }
         // 이메일 유효성 검사
+        // email@.com 5322
         var emailPattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
         if (!emailPattern.matcher(email).matches()) {
             throw DomainExceptionCode.MEMBER_EMAIL_INVALID.create(email);

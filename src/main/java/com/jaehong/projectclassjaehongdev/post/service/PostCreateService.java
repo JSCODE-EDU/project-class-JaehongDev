@@ -4,5 +4,5 @@ import com.jaehong.projectclassjaehongdev.post.payload.request.PostCreateRequest
 import com.jaehong.projectclassjaehongdev.post.payload.response.PostCreateResponse;
 
 public interface PostCreateService {
-    PostCreateResponse execute(PostCreateRequest request);
+    PostCreateResponse execute(PostCreateRequest request, Long memberId);
 }

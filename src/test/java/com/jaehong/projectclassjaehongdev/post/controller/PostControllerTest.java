@@ -1,5 +1,6 @@
 package com.jaehong.projectclassjaehongdev.post.controller;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -12,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jaehong.projectclassjaehongdev.global.domain.DomainExceptionCode;
+import com.jaehong.projectclassjaehongdev.global.resolver.MemberIdArgumentResolver;
 import com.jaehong.projectclassjaehongdev.jwt.TokenService;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostCreateRequest;
 import com.jaehong.projectclassjaehongdev.post.payload.request.PostEditRequest;
@@ -28,6 +30,7 @@ import com.jaehong.projectclassjaehongdev.post.service.PostsFindService;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -55,11 +58,21 @@ class PostControllerTest {
     PostFindService postFindService;
     @MockBean
     PostsFindService postsFindService;
+
+    @MockBean
+    MemberIdArgumentResolver memberIdArgumentResolver;
+
     @Autowired
     MockMvc mockMvc;
     @Autowired
     ObjectMapper mapper;
 
+
+    @BeforeEach
+    void setup() {
+        given(memberIdArgumentResolver.supportsParameter(any())).willReturn(true);
+        given(memberIdArgumentResolver.resolveArgument(any(), any(), any(), any())).willReturn(1L);
+    }
 
     @Nested
     @DisplayName("[게시글 생성 api 단위 테스트] 게시글이")
@@ -74,7 +87,7 @@ class PostControllerTest {
                     .title(request.getTitle())
                     .content(request.getContent())
                     .build();
-            given(postCreateService.execute(request)).willReturn(response);
+            given(postCreateService.execute(request, 1L)).willReturn(response);
 
             requestNewPostApi(request)
                     .andExpect(status().isCreated())
@@ -90,7 +103,7 @@ class PostControllerTest {
                     .build();
 
             var domainException = DomainExceptionCode.POST_SHOULD_NOT_TITLE_EMPTY.create();
-            given(postCreateService.execute(request)).willThrow(domainException);
+            given(postCreateService.execute(request, 1L)).willThrow(domainException);
 
             requestNewPostApi(request)
                     .andExpect(status().isBadRequest())
@@ -123,7 +136,7 @@ class PostControllerTest {
                     .title(request.getTitle())
                     .content(request.getContent())
                     .build();
-            given(postEditService.execute(1L, request)).willReturn(response);
+            given(postEditService.execute(1L, 1L, request)).willReturn(response);
             requestUpdatePostApi(request)
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.id").value(response.getId()))
@@ -138,7 +151,7 @@ class PostControllerTest {
                     .content("content")
                     .build();
             var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.create(1L);
-            given(postEditService.execute(1L, request)).willThrow(domainException);
+            given(postEditService.execute(1L, 1L, request)).willThrow(domainException);
 
             requestUpdatePostApi(request)
                     .andExpect(status().isBadRequest())
@@ -168,7 +181,7 @@ class PostControllerTest {
         @Test
         void 없다면_삭제할_수_없습니다() throws Exception {
             var domainException = DomainExceptionCode.POST_DID_NOT_EXISTS.create(1L);
-            doThrow(domainException).when(postDeleteService).execute(1L);
+            doThrow(domainException).when(postDeleteService).execute(1L, 1L);
 
             mockMvc.perform(delete("/api/posts/{postId}", 1L))
                     .andDo(print())
