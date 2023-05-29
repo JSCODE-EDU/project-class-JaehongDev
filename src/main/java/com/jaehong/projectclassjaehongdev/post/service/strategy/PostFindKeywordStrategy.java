@@ -20,7 +20,8 @@ public class PostFindKeywordStrategy extends PostSearchStrategy {
         if (Strings.isBlank(postSearch.getTitle())) {
             throw DomainExceptionCode.POST_SEARCH_KEYWORD_SHOULD_NOT_BE_BLANK.create(postSearch.getTitle());
         }
-        return PostsResponse.from(postRepository.findBy(PostSearchCondition.create(postSearch.getTitle()))
+
+        return PostsResponse.from(postRepository.findBy(PostSearchCondition.create(postSearch.getTitle(), postSearch.getLimit()))
                 .stream().map(this::convertEntityToResponse)
                 .collect(Collectors.toList()));
     }

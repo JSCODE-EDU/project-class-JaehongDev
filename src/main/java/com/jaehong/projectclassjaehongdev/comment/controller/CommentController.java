@@ -26,10 +26,7 @@ public class CommentController {
             @MemberId Long memberId,
             @RequestBody AddCommentRequest commentRequest
     ) {
-
         this.addCommentService.execute(commentRequest, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
-
 }
